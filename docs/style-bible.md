@@ -152,6 +152,22 @@ What each creator actually does on screen, from a frame-by-frame review (0.07–
 **Text**: 3-line serif headline for the first 3s, white with the key words in **gold** ("His **Openclaw** / agent made him / **$80,000**"). Captions: serif, white, lowercase, 2 lines, dark outline, lower-middle.
 **Overlays**: screenshot cards (dashboards, an X profile, phone UI) floating top-centre with rounded corners and a soft shadow.
 
+## 7. Kallaway (@kallawaymarketing) — "the framework teacher"
+
+**Tone & voice**: calm analyst; names every idea in two words ("Internet Echo", "Identity Labels", "Series Familiarity", "Demeanor Matching"); ends on a comment keyword that delivers a guide.
+**Frame**: top ~2/3 black dot-grid canvas for graphics, bottom ~1/3 face strip; full-frame face for each key line every 8-15 s. Low-key room, black cap and tee, warm key.
+**Text**: headline bar (white bold sans + second line on a red strip); section chip "01 Identity Labels" top-left on every graphic; one-word centred white captions.
+**Overlays**: proof built from real content: thumbnail grids, annotated stills with callouts, view-count badges, red circle highlights, 01/02/03 list recaps.
+**Data**: Internet Echo 9,325 likes / 2,621 comments; Nate teardown (Dd8vo8IxamX) 1,397 / 526. Recipe: `formats/creator-teardown.md`.
+
+## 8. kaye.creatives — "the split-screen news explainer"
+
+**Tone & voice**: mid-thought news hook with a handheld mic ("Something just happened in the world of AI").
+**Frame**: 4:3 (1440x1080) split down the middle: face left, a new one-phrase card right every 1.5-2 s. Full-frame inserts every 8-12 s (logo reveal, AI-generated shots of herself in surreal roles, retro computers, marble run).
+**Text**: heavy condensed caps with one small italic serif word ("while", "just"); builds word by word, ~4 words a second; CTA as lower-third words over full-frame face.
+**Look**: warm tungsten bookshelf room, median ~65, blacks ~10, highlights capped ~140, red plaid as the colour pop.
+**Data**: Opus 5.5 reel (DduIcDJI3vP) 21.4K likes, 2,333 comments, "Comment OPUS". Her collage and set-reveal work: `ai-generation-stack.md`.
+
 ---
 
 ## Cross-creator rules that held up
@@ -160,3 +176,6 @@ What each creator actually does on screen, from a frame-by-frame review (0.07–
 3. **Captions are small.** Roberto's and DOAC's running captions are about 2.5–4% of frame height; the drama comes from the occasional giant word.
 4. **One signature overlay per creator**: Roberto's display-font keyword, Greg's pinned lowercase headline, DOAC's white question box, Chida's green money, Chase's timestamps, Rui Fu's gold headline. Andrew should pick one and keep it on every video.
 5. **The location or prop is the thumbnail**: CRT TV, Bloom truck, empty lecture hall, warehouse.
+6. **Series familiarity beats novelty** (Kallaway on Nate Gaffney): keep one visual setup across a series; viewers see thousands of videos between yours, so repetition reads as a brand, not a rerun.
+7. **Name the viewer** (identity labels) and **match your delivery to the audience you want** (demeanor matching).
+8. **Comment keywords win comments, not always reach**: teardown and tutorial reels with a giveaway pull 25-40% comment rates; pair them with "wow" posts for reach.

@@ -68,3 +68,5 @@ Then turn the patterns into rules and a recipe; save them in `docs/` and the mat
 - rpn "I've joined…" DdUFrgxOcOx: full-frame A-roll (cool window + warm practicals) alternating with light-desk card slams / collage / floating windows, big number counter over A-roll, tiny mono captions.
 - kaye.creatives Dem0m2cPIAg: set-reveal intro (walls fall, crane back into a stadium).
 - 70+ reels from rpn, greglav, DOAC and rising creators: see `style-bible.md`.
+- kaye.creatives DduIcDJI3vP: 4:3 split news explainer (face left, one-phrase card right every 1.5-2 s), heavy condensed caps + italic serif word, AI-generated self inserts. 21.4K likes.
+- kallawaymarketing Dd8vo8IxamX: creator teardown of Nate Gaffney with Claude + Sandcastles; 3 named patterns, section chips, proof graphics, "Comment NATE". 1,397 likes, 526 comments. See `formats/creator-teardown.md`.

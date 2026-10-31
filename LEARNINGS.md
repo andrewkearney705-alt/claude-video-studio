@@ -2,6 +2,11 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-10-31 — Two reels studied: kaye.creatives split explainer + Kallaway creator teardown
+- kaye.creatives DduIcDJI3vP (Opus 5.5 news, 21.4K likes): 4:3 face-left / card-right split, card every 1.5-2 s, AI self-inserts every 8-12 s. Added as a variant in `formats/ai-news-explainer.md`; Andrew's angle: show what you built, not the news.
+- kallawaymarketing Dd8vo8IxamX (Nate Gaffney teardown via Claude + Sandcastles): 3 named patterns (Identity Labels, Series Familiarity, Demeanor Matching). Only 1,397 likes but 526 comments: teardowns are lead-gen more than reach.
+- New format file `formats/creator-teardown.md`; style bible sections 7 (Kallaway) and 8 (kaye split) plus three cross-creator rules.
+
 ## 2026-10-30 — Part 1 (first test video, v1 → v3)
 - v1 "a bit much"; v2 more refined; v3 approved direction: full-frame alternation, styles A light desk / B dark editorial / C set reveal.
 - Root cause of the bad grade: iPhone HLG HDR never tone-mapped. Fixed in `cut.py`; subject/background grade in `look.py`.

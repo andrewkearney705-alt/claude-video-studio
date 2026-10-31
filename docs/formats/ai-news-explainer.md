@@ -53,6 +53,12 @@ The format behind Roberto Nickson's biggest explainers (Tesla Roadster 6.8M, Gem
 - **Tone:** start mid-thought, react ("WHAT?!"), no greeting, end on stakes or a question. Post caption = the facts as bullets.
 - **Set:** dark room, warm skin, coloured monitor glow and a practical lamp behind you, handheld mic as a prop.
 
+## Variant: kaye.creatives 4:3 split (DduIcDJI3vP, 21.4K likes)
+- Frame 1440x1080, split down the middle: face left (each half is a 2:3 portrait), a new card on the right every 1.5-2 s with one phrase building word by word.
+- Heavy condensed caps with one small italic serif word; cards mix B&W archival, retro computing, AI-generated shots of the creator in surreal roles.
+- Shoot horizontal 4K sitting left of centre. End full frame on the face with lower-third CTA words.
+- Better than retelling the news: show something you built with the launch.
+
 ## Examples to study
 - instagram.com/reel/Deia4C-NPwx (rpn, Tesla Roadster, 6.8M)
 - instagram.com/reel/DecWaVFJC4v (rpn, Gemini, 5.7M)
@@ -65,3 +71,4 @@ Follow `pipeline.md` in this folder (section 9 has the effects recipes) and matc
 
 ## Look, sound and animation upgrades
 Read `look-and-sound.md` before grading, mixing or designing animation scenes: HDR tone-mapping, subject/background grade, DPDFNet denoise + voice EQ, organic SFX, full-frame animation scenes (light desk, title write-on, dark editorial, window reveal) and the 3D set-reveal intro.
+- instagram.com/reel/DduIcDJI3vP (kaye.creatives, Claude Opus 5.5, 4:3 split, 21.4K likes)
