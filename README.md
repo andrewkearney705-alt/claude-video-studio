@@ -11,6 +11,7 @@ Everything Claude learned and built while editing the first test video, packaged
 
 ## What's inside
 - `RUNBOOK.md`: the exact step-by-step Claude follows.
+- `LEARNINGS.md`: dated log of what each video/research session taught us (Claude appends after every session).
 - `scripts/`: transcription, cutting with HDR tone-mapping, person masks, the grade (`look.py`), denoise, music + SFX, mixing, graphics rendering, final composite.
 - `templates/`: the full-frame animation scenes, the 3D set-reveal intro, the teleprompter.
 - `docs/`: style bible (70+ reels analysed), look-and-sound guide (McKinnon / D'Avella / Johnny Harris), pipeline, the five formats, and how to study a creator's reels frame by frame.
