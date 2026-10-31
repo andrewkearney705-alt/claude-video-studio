@@ -1,4 +1,6 @@
-"""Pre-render checks for docs/editing-rules.md. Prints PASS/FAIL lines; exit code 1 on any FAIL.
+"""Optional measuring tool: reports dead air, caption chunking and safe-zone hits against a preset.
+It measures; it doesn't decide the edit. Default numbers are the "mino-lee" preset from the Content Vault
+(reference, opt-in); change the constants below to measure against another preset.
 usage:
   python3 qa_check.py audio PROJECT_DIR [voice.wav]   dead space: runs > 20 ms more than 11 dB under speaking level
   python3 qa_check.py captions PROJECT_DIR            2-3 word chunks, never ending on a weak word -> captions.json
@@ -8,6 +10,7 @@ audio reads PROJECT_DIR/edl_f.json and, if present, PROJECT_DIR/edl.json "tone" 
 import sys, os, json, glob, wave
 import numpy as np
 
+# preset: mino-lee (Content Vault presets/). Swap in other numbers as needed.
 DEAD_DB, MAX_DEAD_MS, WIN_MS = 11.0, 20, 10
 WEAK = set('a an the to of my and but or in on for with is at as so your our its'.split())
 # Instagram Reels, 1080x1920 (Hopper 2026 guide; confirm on a posted reel and update)
