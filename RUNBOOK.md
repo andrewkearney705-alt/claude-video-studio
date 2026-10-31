@@ -1,6 +1,6 @@
 # RUNBOOK — how Claude edits one of Andrew's videos with this toolkit
 
-Read this top to bottom before touching footage. Then read `docs/look-and-sound.md`, `docs/style-bible.md` and the format file in `docs/formats/` that fits the video.
+Read this top to bottom before touching footage. Then read `docs/editing-rules.md` (hard numbers every edit follows), `docs/look-and-sound.md`, `docs/style-bible.md` and the format file in `docs/formats/` that fits the video.
 
 ## 0. Setup (fresh workspace)
 ```
@@ -17,9 +17,11 @@ Projects must live inside `projects/` (the 3D intro is served from the toolkit r
 
 ## 2. Edit decisions → `edl.json`
 Pick the best take of each line, drop flubs and dead air (target 0 pauses over 0.15 s for explainers).
-`[{"label":"L1","src_in":3.44,"src_out":6.52}, ...]` in source seconds. Then:
+`[{"label":"L1","src_in":3.44,"src_out":6.52,"tone":"normal"}, ...]` in source seconds. `tone` = normal (0 gap) / serious (6-frame hold at the end) / joke (cut mid-word).
+Leave 1-3 frames of J-cut lead and up to 60 ms of each word's fade; never a sliver of a cut word. Then:
 `python3 ../../scripts/cut.py SOURCE .` → `cut_sdr.mov`, `edl_f.json` (frame-accurate), `words_cut.json` (words on the new timeline).
 Correct `words_cut.json` spellings / punctuation; this drives captions, graphics timing and SFX timing.
+`python3 ../../scripts/qa_check.py captions .` → `captions.json` (2-3 word chunks, no weak endings).
 
 ## 3. Look
 ```
@@ -35,6 +37,7 @@ python3 ../../scripts/denoise.py .        # DPDFNet 48 kHz → den48.wav
 # write sound.json: bpm, busy sections (where drums play), breath (dip before the payoff), sfx events per style
 python3 ../../scripts/sound.py . A        # voice.wav, music.wav, sfx_A.wav
 bash ../../scripts/mix.sh . A 1           # → mix_A.wav at -14 LUFS (and `0` for the no-music version)
+python3 ../../scripts/qa_check.py audio .  # must PASS: no dead runs over 20 ms except serious-line holds
 ```
 SFX names: whoosh(d,lo,hi) thump(g) paper(g) tick(f,g) key(g) swell(d) boom() shimmer() pop(). Times are seconds or a spoken word
 ("ROBERTO", "CUTS@10.5"). Keep them quiet and organic (gains 0.05-0.22). Claude cannot hear: verify with loudness + spectrum numbers.
@@ -46,6 +49,7 @@ SFX names: whoosh(d,lo,hi) thump(g) paper(g) tick(f,g) key(g) swell(d) boom() sh
 - `render(t)` must be deterministic. Return a hole rect `[x,y,w,h,r]` when footage should show inside a window.
 - Test 6-12 frames, composite over a graded frame, look at them, fix, then render all:
   `python3 ../../scripts/render_gfx.py gfx.html . A gfxA [t1 t2 ...]`
+- `python3 ../../scripts/qa_check.py safezone gfxA` must PASS (Instagram safe zone). Cards above the head, never on the face, one at a time.
 - Put any images the scenes need in the project (`thumbs/`, `thumbs.json`, `p_*.jpg`).
 
 ## 6. Optional: set-reveal intro (walls fall, crane back)
@@ -63,6 +67,10 @@ python3 ../../scripts/composite.py . gfxA mix_A.wav out_A.mp4 [reveal/frames]
 ffmpeg -i out_A.mp4 -i mix_A_nomusic.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest out_A_nomusic.mp4
 ```
 Build a 12-frame contact sheet of the final and look at it before sending. Deliver the main version + no-music version.
+
+## 8. Feedback loop (how the rules grow)
+Andrew watches the draft like a viewer and names exactly what's off, with a number where possible. When he says "save that as a rule",
+add it to `docs/editing-rules.md` with the date, fix the script default if there is one, and log it in `LEARNINGS.md`.
 
 ## Measured targets to check against
 Explainer: 25-45 cuts/min, median shot 1-2.5 s, first cut < 1 s, 0 pauses > 0.15 s, -14 LUFS, TP ≤ -1.5 dB.
