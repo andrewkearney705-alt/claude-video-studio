@@ -33,6 +33,18 @@ Code: `look.py` + `grade_all.py` in the v3 edit folder.
 - SFX must be organic and quiet: card/paper landings, soft UI ticks, key clicks for typing, short airy whooshes on scene cuts, one low boom on the payoff word. No bright chimes.
 - Master: two-pass linear loudnorm, -14 LUFS, true peak -1.5 dBFS. Always export a no-music version too.
 
+### 3b. Where SFX go in a talking head (measured: abigaildaniellla DbJEDXOxgkC, 9.6K likes / 4.1K comments)
+Measured from the decoded audio track, not by ear: her voice is mono, so every hit shows up as a jump in the stereo side channel.
+- **SFX mark changes of picture, not words.** 13 hits in 33 s (~24/min). Every one sits on a hard cut, a title card landing or a word of on-screen text popping in. None sit on ordinary spoken words. Busy sections (b-roll montage, list cards) get them; plain A-roll gets none.
+- **Not every cut gets one.** ~18 cuts, ~2/3 got a sound. Back-to-back cuts in a montage get one whoosh for the run, not one each.
+- **Sound leads picture by 1-2 frames.** Whooshes peak ~50 ms before the cut (3.85 vs 3.90 s, 23.90 vs 24.0, 25.35 vs 25.40). Place `sfx` events 2 frames early.
+- **One low boom per idea, right after the key noun.** A sub hit lands ~0.25 s after she says the topic word ("sound", 21.55 s) and again on the CTA keyword (28.45 s).
+- **Silence is the loudest effect.** At the cut back to camera for the CTA (26.9 s) the music stops dead ~0.3 s later and she talks totally dry for ~1 s; then the boom hits on the keyword and a much quieter bed returns (~10 dB lower) under the ask.
+- **Bed doesn't duck.** Music sat at one steady level ~20 dB under the voice the whole time, with no movement in pauses. Keeping it that low is what makes un-ducked music work; our sidechain ducking stays, but the starting level can go lower.
+- Hook (0-3.5 s) has no placed hits, just the bed and voice: the hook is carried by word-by-word captions with the key words in yellow.
+- Hot master: peaks at 0.0 dBFS, about -16 dB RMS. Don't copy that; -14 LUFS / -1.5 dBTP stays.
+How to apply in `sound.py`: one `whoosh` per cut-run at cut time minus 0.08 s, `pop`/`tick` per text-card word, one `boom` after the topic noun and one on the CTA keyword, and a hard music stop (cut `music.wav` to zero) at the start of the CTA section.
+
 ## 4. Full-frame animation scenes (instead of split-screen)
 Roberto alternates **full-frame A-roll** with **full-frame animation scenes**; the split screen is one option, not the default.
 - **Light desk (rpn "joined" reel):** off-white canvas with a soft vignette. Photo/tweet cards slam into the centre one after another, faster and faster (card lands at 115% → 100% in 3 frames, ±4° rotation, real drop shadow), then the stack fans into a collage around one small centred word. Tiny white mono captions. Hard cuts in and out.

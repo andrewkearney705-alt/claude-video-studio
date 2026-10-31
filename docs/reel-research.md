@@ -50,6 +50,14 @@ window.__ig2 = async (step=2, cols=4, maxN=20, start=0, rate=2) => {
 };
 ```
 
+## Measuring a reel's sound (SFX, bed, ducking)
+Live capture with an AnalyserNode returns silence in the hidden browser pane, so decode the track instead:
+1. `performance.getEntriesByType('resource')` → cdninstagram `.mp4` URLs; strip `&bytestart=…&byteend=…`. The small `m78`/`m412` files are audio, the big `m367` files are video.
+2. `fetch` each audio URL in the page and `OfflineAudioContext.decodeAudioData`; the one whose duration matches the reel is it.
+3. Per 50 ms frame (2048 FFT): mid (L+R) band energies (<150, 150-400, 400-2k, 2-5k, 5-10k, >10k Hz) and side (L-R) energy.
+4. Read it: talking-head voice is mono, so **side-channel jumps of +8 dB or more are added sound** (whooshes, hits, music changes). Side collapsing to ~-35 dB means the music stopped. High-band jumps alone are mostly sibilance; ignore them unless voice is low at the same moment. Low-band +20 dB with a side jump = boom.
+5. Cut times: frame-difference at 0.1 s (36x64 grey thumbnails, mean abs diff ≥ ~40 = cut). Match each sound to the nearest cut or text event.
+
 ## Grade stats (add to any sampler)
 Per frame: luminance 2nd/50th/98th percentile (black level, exposure, highlight roll-off), mean saturation (max-min)/max, mean R,G,B (warmth). Sample every 16th pixel with `getImageData`. Compare with the targets in `look-and-sound.md`.
 
@@ -70,3 +78,4 @@ Then turn the patterns into rules and a recipe; save them in `docs/` and the mat
 - 70+ reels from rpn, greglav, DOAC and rising creators: see `style-bible.md`.
 - kaye.creatives DduIcDJI3vP: 4:3 split news explainer (face left, one-phrase card right every 1.5-2 s), heavy condensed caps + italic serif word, AI-generated self inserts. 21.4K likes.
 - kallawaymarketing Dd8vo8IxamX: creator teardown of Nate Gaffney with Claude + Sandcastles; 3 named patterns, section chips, proof graphics, "Comment NATE". 1,397 likes, 526 comments. See `formats/creator-teardown.md`.
+- abigaildaniellla DbJEDXOxgkC: "sound effects make talking heads less boring" (33 s). Word-by-word white captions with yellow key words, b-roll montage of her own clips, white list cards ("Verbal hook / Intro text / Overlays / Transitions / Visual examples"), "Comment SOUND". 9,618 likes, 4,103 comments. SFX placement measured from the audio: see `look-and-sound.md` §3b.
