@@ -1,0 +1,1 @@
+highpass=f=95,highpass=f=95,lowshelf=f=130:g=-5,equalizer=f=200:t=q:w=1:g=-2,equalizer=f=700:t=q:w=1.2:g=-2,equalizer=f=3000:t=q:w=1.1:g=4,equalizer=f=6200:t=q:w=1:g=2,deesser=i=0.35:f=0.55,acompressor=threshold=-24dB:ratio=3:attack=4:release=60:knee=4:makeup=6dB,acompressor=threshold=-14dB:ratio=2:attack=25:release=250:makeup=2dB,alimiter=limit=0.89:level=false

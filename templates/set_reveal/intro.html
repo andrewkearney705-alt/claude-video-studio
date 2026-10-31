@@ -1,0 +1,102 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head>
+<body>
+<script type="module">
+import * as THREE from './node_modules/three/build/three.module.js';
+const W=1080,H=1920, NF=__NF__, THUMBS=__THUMBS__;
+const r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+r.setSize(W,H); r.setPixelRatio(1); r.outputColorSpace=THREE.SRGBColorSpace; document.body.appendChild(r.domElement);
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x050507); scene.fog=new THREE.FogExp2(0x07070a,0.028);
+const FOV=50, cam=new THREE.PerspectiveCamera(FOV,W/H,0.05,400);
+// the shot as a card: height 2 units, bottom edge (hinge / podium top) at y=0
+const PH=2, PW=PH*W/H, D=(PH/2)/Math.tan(THREE.MathUtils.degToRad(FOV/2));
+const tl=new THREE.TextureLoader();
+const load=s=>new Promise(res=>tl.load(s,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;res(t)},undefined,()=>res(null)));
+const lerp=(a,b,x)=>a+(b-a)*x, cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), pr=(t,a,b)=>cl((t-a)/(b-a));
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, ein=x=>x*x*x, eo=x=>1-Math.pow(1-x,3);
+let plate, andrewTex=[], andrew, panels=[], floorTxt;
+async function build(){
+  const ff=new FontFace('Serif','url(/fonts/fontsource-instrument-serif/files/instrument-serif-latin-400-italic.woff2)',{style:'italic'});
+  const fm=new FontFace('Mono','url(/fonts/fontsource-space-mono/files/space-mono-latin-700-normal.woff2)',{weight:'700'});
+  await Promise.all([ff.load(),fm.load()]); document.fonts.add(ff); document.fonts.add(fm);
+  plate=await load('plate.jpg');
+  for(let i=0;i<NF;i++) andrewTex.push(await load('andrew/'+String(i).padStart(5,'0')+'.png'));
+  const thumbs=await Promise.all(THUMBS.map(load));
+  // --- wall panels cut from the room plate: left | centre | right, hinged at the floor line ---
+  const cuts=[0,0.24,0.76,1];
+  for(let k=0;k<3;k++){
+    const u0=cuts[k],u1=cuts[k+1], w=(u1-u0)*PW;
+    const g=new THREE.PlaneGeometry(w,PH); g.translate(0,PH/2,0);
+    const uv=g.attributes.uv; for(let i=0;i<uv.count;i++) uv.setX(i,u0+uv.getX(i)*(u1-u0));
+    const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:plate,side:THREE.DoubleSide,fog:false}));
+    const piv=new THREE.Group(); piv.position.set(-PW/2+(u0+u1)/2*PW,0,-0.002); piv.add(m); scene.add(piv);
+    // back faces of the walls: plaster
+    const back=new THREE.Mesh(g.clone(),new THREE.MeshBasicMaterial({color:0x2a2826,side:THREE.BackSide})); piv.add(back);
+    panels.push({piv,k});
+  }
+  // --- Andrew: the live footage with alpha, a card just in front of the wall ---
+  andrew=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH).translate(0,PH/2,0),new THREE.MeshBasicMaterial({map:andrewTex[0],transparent:true,fog:false,depthWrite:false}));
+  andrew.position.z=0.06; andrew.renderOrder=5; scene.add(andrew);
+  // --- podium he stands behind (top face = frame bottom) ---
+  const pod=new THREE.Mesh(new THREE.BoxGeometry(PW*0.95,3.2,0.9),new THREE.MeshStandardMaterial({color:0x121214,roughness:.35,metalness:.2}));
+  pod.position.set(0,-1.6,-0.15); scene.add(pod);
+  const edge=new THREE.Mesh(new THREE.BoxGeometry(PW*0.95,0.012,0.012),new THREE.MeshBasicMaterial({color:0xD58A6A}));
+  edge.position.set(0,-0.006,0.30); scene.add(edge);
+  // --- arena floor far below, glossy ---
+  const floor=new THREE.Mesh(new THREE.CircleGeometry(60,64),new THREE.MeshStandardMaterial({color:0x0c0c0f,roughness:.25,metalness:.6}));
+  floor.rotation.x=-Math.PI/2; floor.position.y=-3.2; scene.add(floor);
+  for(let i=1;i<9;i++){const ring=new THREE.Mesh(new THREE.RingGeometry(i*2.2,i*2.2+0.015,128),new THREE.MeshBasicMaterial({color:0x2a2a30}));ring.rotation.x=-Math.PI/2;ring.position.y=-3.19;scene.add(ring)}
+  // --- words painted on the arena floor (like a pitch logo) ---
+  const cv=document.createElement('canvas'); cv.width=2048; cv.height=1024; const x=cv.getContext('2d');
+  x.fillStyle='rgba(242,239,234,1)'; x.textAlign='center'; x.font='italic 250px Serif'; x.fillText('the creators',1024,420); x.fillText('I study',1024,680);
+  x.font='700 52px Mono'; x.fillStyle='#D58A6A'; x.letterSpacing='14px'; x.fillText('70 REELS · FRAME BY FRAME',1024,840);
+  const ft=new THREE.CanvasTexture(cv); ft.colorSpace=THREE.SRGBColorSpace;
+  floorTxt=new THREE.Mesh(new THREE.PlaneGeometry(9,4.5),new THREE.MeshBasicMaterial({map:ft,transparent:true,opacity:0,depthWrite:false}));
+  floorTxt.rotation.x=-Math.PI/2; floorTxt.position.set(0,-3.18,3.1); scene.add(floorTxt);
+  // --- the stadium: tiers of screens playing the reels, curved around the podium ---
+  const R0=11, tiers=4, perTier=34;
+  for(let tier=0;tier<tiers;tier++){
+    const R=R0+tier*2.2, y=-2.2+tier*3.0, h=2.4, w=h*9/16;
+    for(let j=0;j<perTier;j++){
+      const a=-Math.PI*0.95+j/(perTier-1)*Math.PI*1.9; // wrap around, open toward the camera side
+      const tex=thumbs[(tier*perTier+j)*7%thumbs.length];
+      const s=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,color:new THREE.Color().setScalar(0.55+0.3*((j*13+tier*7)%5)/4)}));
+      s.position.set(Math.sin(a)*R,y,-Math.cos(a)*R); s.lookAt(0,y-0.4*tier,0); scene.add(s);
+      const fr=new THREE.Mesh(new THREE.PlaneGeometry(w+0.08,h+0.08),new THREE.MeshBasicMaterial({color:0x000000}));
+      fr.position.copy(s.position).multiplyScalar(1.002); fr.quaternion.copy(s.quaternion); scene.add(fr);
+    }
+  }
+  // --- light beams from the top rim ---
+  const beamMat=c=>new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0.06,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+  for(let i=0;i<8;i++){const a=-Math.PI*0.8+i/7*Math.PI*1.6; const cone=new THREE.Mesh(new THREE.ConeGeometry(2.2,22,24,1,true),beamMat(i%3===1?0xD58A6A:0xd8e2ff));
+    cone.position.set(Math.sin(a)*14,8,-Math.cos(a)*14); cone.lookAt(0,-3,0); cone.rotateX(Math.PI/2); cone.translateY(-11*0); scene.add(cone)}
+  scene.add(new THREE.AmbientLight(0xffffff,0.25));
+  const key=new THREE.DirectionalLight(0xffe7d6,1.4); key.position.set(3,10,6); scene.add(key);
+  const rim=new THREE.PointLight(0xD58A6A,30,40); rim.position.set(0,6,-8); scene.add(rim);
+}
+// timeline (seconds): walls fall at T1, camera pulls back T1..T2
+const T1=0.62, T2=3.05;
+window.render=function(t,fi){
+  andrew.material.map=andrewTex[Math.min(fi,NF-1)]; andrew.material.needsUpdate=true;
+  // walls: centre first, then sides, each a topple backwards with gravity feel, sides also swing outward
+  panels.forEach(({piv,k})=>{
+    const d=k===1?0:0.10+(k===0?0:0.04);
+    const p=pr(t,T1+d,T1+d+0.85); const a=ein(p)*1.75;           // 0 -> ~100deg
+    piv.rotation.x=-a;
+    piv.rotation.y=k===0? ein(p)*0.5 : k===2? -ein(p)*0.5 : 0;
+    piv.position.y=-Math.max(0,p-0.6)*2.5*Math.pow(p,2)*2;         // drops off the edge
+    piv.visible=p<0.999;
+  });
+  // camera: exactly the original framing, then a long crane back + up
+  const c=eio(pr(t,T1+0.05,T2));
+  const z=lerp(D,D+12.5,c), y=lerp(PH/2,PH/2+5.6,c);
+  cam.position.set(lerp(0,-1.2,c),y,z);
+  cam.lookAt(0,lerp(PH/2,-0.6,c),lerp(0,1.2,c));
+  cam.fov=lerp(FOV,FOV*0.9,c); cam.updateProjectionMatrix();
+  floorTxt.material.opacity=0.55*eo(pr(t,1.80,2.4));
+  r.render(scene,cam);
+  return true;
+};
+window.ready=build().then(()=>true);
+</script></body></html>
