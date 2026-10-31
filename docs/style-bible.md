@@ -172,7 +172,7 @@ What each creator actually does on screen, from a frame-by-frame review (0.07–
 
 **Method**: edits with Claude and turns each correction into a numbered rule; publishes the rules as a free PDF that leads into a masterclass and a Claude captions skill.
 **Look**: talking head, big centred white captions on the mouth (2-3 words, soft shadow, no animation), cards that appear full-size above the head on their word and leave on the next cut, real screenshots instead of emojis, ~1.25x punch-ins only on key lines.
-**What we took**: the numbers (see `docs/editing-rules.md`). **What we didn't**: the caption look and motionless cards on full-frame scenes.
+**Status**: reference only. His numbers live as an opt-in preset in the Content Vault's strategy map.
 
 ---
 
