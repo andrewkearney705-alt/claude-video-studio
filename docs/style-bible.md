@@ -168,6 +168,12 @@ What each creator actually does on screen, from a frame-by-frame review (0.07–
 **Look**: warm tungsten bookshelf room, median ~65, blacks ~10, highlights capped ~140, red plaid as the colour pop.
 **Data**: Opus 5.5 reel (DduIcDJI3vP) 21.4K likes, 2,333 comments, "Comment OPUS". Her collage and set-reveal work: `ai-generation-stack.md`.
 
+## 9. Mino Lee (@minolee.mp4, Content Academy) — "the rules-first editor"
+
+**Method**: edits with Claude and turns each correction into a numbered rule; publishes the rules as a free PDF that leads into a masterclass and a Claude captions skill.
+**Look**: talking head, big centred white captions on the mouth (2-3 words, soft shadow, no animation), cards that appear full-size above the head on their word and leave on the next cut, real screenshots instead of emojis, ~1.25x punch-ins only on key lines.
+**What we took**: the numbers (see `docs/editing-rules.md`). **What we didn't**: the caption look and motionless cards on full-frame scenes.
+
 ---
 
 ## Cross-creator rules that held up
