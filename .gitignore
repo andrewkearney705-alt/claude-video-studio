@@ -1,5 +1,6 @@
-models/
-fonts/
+models
+fonts
 projects/
-templates/set_reveal/node_modules/
+templates/set_reveal/node_modules
 templates/**/_built.html
+__pycache__/
