@@ -2,6 +2,16 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-10-31 — Kit Curator set up (how the kit learns from now on)
+- Added `CURATION.md` (taste rules: Adopted > Proven > Reference; quiet nights, edit in place, size caps), `CLAUDE.md` for every session, `inbox/` fallback, `agents/` playbook mirror and `scripts/curate_check.py`.
+- Only the nightly Kit Curator rewrites rule docs; chats and Brand OS agents drop signals in the Brand OS `kitsignals` collection. Fixes the "push blocked, kit stops learning" problem.
+
+## 2026-10-31 — Three reels studied (reference, nothing adopted yet)
+- rhian_marie DceBlMMo3cw "6 months" (25 s, 71.3K likes, 2,930 reposts): 0-2.8 s supercut of other creators saying "6 months" (cut every ~0.5 s), one borrowed clip to 8 s, then her plain selfie pledge with one-word centre captions. Trend hook + personal pledge; reposts show people share it as their own commitment.
+- cruz.juarezz DfGwbBIBtOp (27 s, 22.3K likes, 1,052 reposts, 23 comments): letterboxed widescreen strip in a vertical frame, dark warm tungsten, desk-at-night to gym, small serif subtitles, no talking to camera. Gets saves, not conversation.
+- bryanbea_ DfKbiMQRmmb (47 s, new account, no proof yet): top-half graphics on grid paper (red label headlines, screenshot cards, italic serif accents, outlined "#3"), talking head bottom, ends on [FOLLOW ME]. Same family as the Kallaway/kaye split.
+- Suggested combo for Andrew (not adopted): "6 months" supercut hook → his own specific pledge to camera → cinematic letterboxed montage of the real work → "follow along".
+
 ## 2026-10-31 — Sound effects in talking heads (abigaildaniellla DbJEDXOxgkC)
 - Measured SFX from the decoded audio track for the first time (voice is mono, so added sounds show up in the stereo side channel). Method written up in `reel-research.md`.
 - 13 hits in 33 s, all on cuts, card landings and text pops; none on plain spoken words; ~2/3 of cuts get one. Whooshes lead the picture cut by ~50 ms.
