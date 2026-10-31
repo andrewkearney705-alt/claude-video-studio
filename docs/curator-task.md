@@ -12,7 +12,7 @@ STEP 1. Read what came in since meta/curator.lastRunAt (first run: last 3 days) 
 
 STEP 2. Sort each signal: Adopted, Proven or Reference (CURATION.md section 2). Drop duplicates and anything already in the kit.
 
-STEP 3. Apply with taste. Adopted and Proven rewrite the right rule doc (replace, don't stack; Proven rules carry evidence in brackets). Reference becomes concise notes in reference sections only. Regenerate agents/<id>.md for changed playbooks. One dated LEARNINGS.md entry if anything changed. First run of the month: archive LEARNINGS older than 30 days and merge any doc over its cap. "Undo <theme>" from Andrew: git revert that commit. Nothing meaningful: commit nothing.
+STEP 3. Apply with taste. Adopted and Proven rewrite the right rule doc (replace, don't stack; Proven rules carry evidence in brackets). Reference becomes concise notes in reference sections only. Update docs/knowledge/patterns.md from new breakdowns: add each new pattern under Seen with its element tag and source, bump the evidence count when a breakdown repeats one, and promote it (Seen → Emerging → Strong → Proven for Andrew) by the thresholds in that file; demote or delete patterns contradicted by newer evidence. Regenerate agents/<id>.md for changed playbooks. One dated LEARNINGS.md entry if anything changed. First run of the month: archive LEARNINGS older than 30 days and merge any doc over its cap. "Undo <theme>" from Andrew: git revert that commit. Nothing meaningful: commit nothing.
 
 STEP 4. Run python3 scripts/curate_check.py and fix every problem. Fetch, rebase on origin/main, push to main, one commit per theme, messages starting "Curator:".
 

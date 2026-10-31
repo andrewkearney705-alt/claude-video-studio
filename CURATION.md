@@ -11,6 +11,7 @@ Goal: the kit gets sharper every week without turning into a junk drawer.
 | Brand OS agents | Brand OS `agents/*` playbooks, `decisions/*`, routed `inbox/*` feedback | Knowledge Keeper adds a Script Writer rule |
 | Trial Lab and Analyst | Brand OS `trials/*` verdicts | "Story opener beat Number opener, 3 of 4" |
 | Reel breakdowns | Content Vault `items/*` | kaye.creatives split-screen explainer |
+| Nightly Reel Scout | Content Vault `items/*` (kind `scout`) + `kitsignals` | "Outlier: result-first hook, 6.2x the creator's median" |
 | Editing chats | `kitsignals` (or a direct push when they can) | "Grade crushed skin on the Peru clip; fixed in look.py" |
 
 A signal looks like: `{source, kind: feedback|adopted|evidence|reference|fix|tool, title, body, evidence, createdAt, status: "new"}`.
@@ -30,6 +31,7 @@ When two signals disagree, Adopted beats Proven beats Reference, and newer beats
 - `docs/formats/*`: one file per format; series-specific learnings go in that format.
 - `docs/ai-generation-stack.md`: tools, prices, what each AI tool is good and bad at.
 - `RUNBOOK.md` and `scripts/`: only when a fix was tested on real footage.
+- `docs/knowledge/`: `elements.md` (the 14-part breakdown every reel gets), `patterns.md` (the scoreboard of what's working and why, with evidence counts and strength), `my-flavor.md` (Andrew's signature and the remix recipe).
 - `agents/*.md`: a read-only mirror of each Brand OS agent's playbook, regenerated nightly so history is in git.
 - `LEARNINGS.md`: one dated entry per night that changed something. Newest first.
 
