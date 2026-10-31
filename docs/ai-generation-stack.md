@@ -41,3 +41,9 @@ Three patterns:
 Human-made benchmark: PJ Accetturo's Kalshi NBA Finals ad: script with ChatGPT/Gemini → Gemini turns each shot into a Veo 3 prompt (5 at a time, more and quality slips) → 300-400 generations for 15 usable clips → edited by hand. 3 days, ~$2,000.
 Common lessons: approve stills before paying for video; budget 20-30% over the quote for re-runs; keep a shared style suffix + reference images for consistency; put a human approval gate before generation spend and before posting; generated clips land straight in the project folder so the edit step picks them up.
 Comment-keyword CTAs ("comment PROMPTS") are run with ManyChat-style comment-to-DM automation on Instagram.
+
+## Cost models (checked Oct 30 2026)
+- Higgsfield "Unlimited" = manual use on higgsfield.ai only, slower queue, a short list of models (individual plans: images + Kling 3.0 720p/5s on annual plans; Seedance unlimited only on Team/Scale), and the terms say automated use can be throttled. MCP, CLI and API always spend credits. A July 2026 "Unlimited MCP" 24-hour trial existed (Seedance 2, Kling 3, Motion Control, one job at a time): watch for repeats, don't plan around it.
+- Pay-per-use: Higgsfield API Kling 3 ≈ $0.08-0.11/s, Seedance 2.x ≈ $0.07-0.21/s → ~$0.40-1.00 per 5 s shot. Approve stills first.
+- Fixed-cost unlimited: open models (Wan 2.x, LTX-2) on a rented NVIDIA GPU. RunPod RTX 4090 ≈ $0.69/h, ~10 min per 10 s Wan clip (~$0.10-0.25/clip); 24/7 ≈ $500/mo, so spin up on demand. Apple Silicon is not viable (Wan 2.2: 82 min per 2 s clip on an M1 Max; LTX-2 failed).
+- Everything Claude does in the kit (motion graphics, collage scenes, grade, sound, edit) is already fixed-cost and unlimited.
