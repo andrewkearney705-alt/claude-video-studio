@@ -2,6 +2,12 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-10-31 — rpn "Keiretsu" essay style added to the toolbelt (DdG9xwqNqxY)
+- Andrew: "love this editing style, add to your toolbelt." Added as an opt-in format, `formats/curiosity-essay.md`; not a default.
+- 83 s non-tech essay, 4:3 frame, daylight living-room set. Signature: ~1 s trailer-style title at 1.4 s (stencil accent word + kanji, B&W stock, viewfinder HUD, glitch hits), warm colour face vs near-mono B-roll (A-roll sat 0.34, B-roll 0.01-0.08), face holds 3-5 s then B-roll bursts at ~4/s, editorial collage B-roll (print pages, cut-outs, archival).
+- 8.7K likes, 100 comments, 403 reposts; views and outlier score not readable (profile grid didn't load).
+- Method: a 32x24 frame-difference pass at 0.25 s steps (threshold 28) gives a fast visual-change count over a whole reel in ~25 s.
+
 ## 2026-10-31 — Kit Curator set up (how the kit learns from now on)
 - Added `CURATION.md` (taste rules: Adopted > Proven > Reference; quiet nights, edit in place, size caps), `CLAUDE.md` for every session, `inbox/` fallback, `agents/` playbook mirror and `scripts/curate_check.py`.
 - Only the nightly Kit Curator rewrites rule docs; chats and Brand OS agents drop signals in the Brand OS `kitsignals` collection. Fixes the "push blocked, kit stops learning" problem.
