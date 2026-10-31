@@ -14,6 +14,7 @@ Everything Claude learned and built while editing the first test video, packaged
 - `scripts/`: transcription, cutting with HDR tone-mapping, person masks, the grade (`look.py`), denoise, music + SFX, mixing, graphics rendering, final composite.
 - `templates/`: the full-frame animation scenes, the 3D set-reveal intro, the teleprompter.
 - `docs/`: style bible (70+ reels analysed), look-and-sound guide (McKinnon / D'Avella / Johnny Harris), pipeline, the five formats, and how to study a creator's reels frame by frame.
+- `docs/ai-generation-stack.md`: kaye.creatives playbook + Higgsfield / ElevenLabs / HeyGen stack and how Claude drives them.
 - `examples/test-video/`: the edit decisions and timings from the first video.
 
 Models and fonts aren't included (too big); `setup.sh` downloads them in a minute.
