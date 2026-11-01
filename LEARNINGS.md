@@ -2,6 +2,13 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-01 — Kit Curator, first run
+- Brand decisions from the Brand OS folded into `knowledge/my-flavor.md`: day job is "a global insurance company" on Instagram (company topics LinkedIn-only), no banned topic categories, voice never cocky, handle settled. Same employer wording in `CLAUDE.md` and `CURATION.md`.
+- Andrew's Content Vault picks added to `my-flavor.md`: 6 adopted options (dark warm set, one clay accent, desk-card alternation, serif write-on, set reveal, one-clip-many-versions) and a liked shortlist. Liked items stay opt-in; dense SFX conflicts with the calmer defaults, so nothing in `look-and-sound.md` changed.
+- `knowledge/patterns.md`: 7 new Seen patterns from 5 breakdowns; comment-keyword CTA promoted to Emerging (3 reels, 3 creators).
+- `reel-research.md`: Reel Scout's grid-render fix (screenshot before reading a profile's reels grid) and offline shortcode-to-date decode.
+- `agents/`: first mirror of the 17 Brand OS playbooks.
+
 ## 2026-10-31 — rpn "Keiretsu" essay style added to the toolbelt (DdG9xwqNqxY)
 - Andrew: "love this editing style, add to your toolbelt." Added as an opt-in format, `formats/curiosity-essay.md`; not a default.
 - 83 s non-tech essay, 4:3 frame, daylight living-room set. Signature: ~1 s trailer-style title at 1.4 s (stencil accent word + kanji, B&W stock, viewfinder HUD, glitch hits), warm colour face vs near-mono B-roll (A-roll sat 0.34, B-roll 0.01-0.08), face holds 3-5 s then B-roll bursts at ~4/s, editorial collage B-roll (print pages, cut-outs, archival).
