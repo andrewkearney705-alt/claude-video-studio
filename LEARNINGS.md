@@ -2,6 +2,13 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-01 — Real SFX, motion principles, demo-film format, stereo bug fixed
+- **Bug fixed in `sound.py`:** stereo files (music.wav, sfx_*.wav) were written de-interleaved (all left samples, then all right), so music and SFX played at double speed. Verified on a synthetic project: hits now land at the requested times in both channels. Re-render any earlier test mixes.
+- **Real recorded SFX:** `sound.py` loads `SFX_DIR/<name>/*.wav` first (random take, ±3% pitch, ±1.5 dB) and only falls back to the synth with a warning. Source: withian.t DfLz2NMsgxz ("Why your Claude edits feel AI": synthesized sound, fake UI and linear motion are the tells). Andrew asked Claude to act on it.
+- **Motion:** new `templates/motion.js` (spring ~5% overshoot / 0.5 s settle, anticipation, pop, stagger, follow-through, speed-based motion blur, hold), tested numerically. Rules in `look-and-sound.md` §4b.
+- **New opt-in format** `formats/product-demo-film.md` from higgsfield.ai DZcy41GithZ (Andrew: add it to the toolkit). Audio decoded: one loud bed, ~21 onsets on clicks and card landings, drop-out at 29 s before the 30.5 s payoff.
+- Reference only: realskytan DexJ-qWiWdY "ultimate storytelling caption" (Introduction, Struggle, Rise, Proof, Unique Mechanism, Expectations, Two-door CTA), filed to the Content Vault.
+
 ## 2026-11-01 — Motion graphics: Prompt Motion library + motion blur
 - Andrew asked the editing/motion team to study everything in griffinwooldridge1's reel (DeLw2M6mx8n) on Prompt Motion, a gallery of Claude-made motion films with their prompts.
 - Copied all 233 entries to `docs/motion/prompt-motion-catalog.json` (reference; prompts belong to their creators). Distilled `docs/motion/motion-playbook.md`: what the library shows, borrowed motion rules (HeyGen HyperFrames motion doctrine), the brief template, gotchas, entries to open first.

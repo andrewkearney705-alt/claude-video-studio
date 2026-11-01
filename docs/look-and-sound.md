@@ -45,12 +45,23 @@ Measured from the decoded audio track, not by ear: her voice is mono, so every h
 - Hot master: peaks at 0.0 dBFS, about -16 dB RMS. Don't copy that; -14 LUFS / -1.5 dBTP stays.
 How to apply in `sound.py`: one `whoosh` per cut-run at cut time minus 0.08 s, `pop`/`tick` per text-card word, one `boom` after the topic noun and one on the CTA keyword, and a hard music stop (cut `music.wav` to zero) at the start of the CTA section.
 
+### 3c. Real recorded SFX, not synthesized (Nov 2026)
+- Viewers can hear synthesized whooshes and pops as "AI-made" (withian.t DfLz2NMsgxz; his fix: give Claude a library of real sounds and let it choose). `sound.py` now loads real recordings first: `SFX_DIR/<name>/*.wav`, a different take per hit with ±3% pitch and ±1.5 dB gain; the old synth is a fallback that prints a warning.
+- Name folders by feel, not mechanism: `airy-whoosh`, `soft-impact`, `glass-pop`, `paper-land`, `ui-tick`, `key-click`, `low-boom`, `riser`. 3-6 takes each. Library lives outside git (`~/claude-video-studio-sfx`).
+
 ## 4. Full-frame animation scenes (instead of split-screen)
 Roberto alternates **full-frame A-roll** with **full-frame animation scenes**; the split screen is one option, not the default.
 - **Light desk (rpn "joined" reel):** off-white canvas with a soft vignette. Photo/tweet cards slam into the centre one after another, faster and faster (card lands at 115% → 100% in 3 frames, ±4° rotation, real drop shadow), then the stack fans into a collage around one small centred word. Tiny white mono captions. Hard cuts in and out.
 - **Title write-on (rpn "Life with Claude"):** big serif title over the live shot, each letter blur → sharp and rising 18px with 40-60ms stagger. Ghost UI words drift at 20% opacity at the side.
 - **Dark editorial:** near-black with a faint 90px grid; a 10x7 grid of thumbnails populates, a big serif counter counts up, then an accent scan line sweeps rows and greys out the "analysed" tiles.
 - **Window reveal:** an app window types the prompt, ticks off steps, then its content becomes the actual video and the window grows to full frame — "the video you're watching now." The footage is composited into the hole in Python, so it scales with the window.
+
+### 4b. Motion that doesn't feel AI-made (Nov 2026)
+- Never linear for anything that moves. Arrivals spring (`templates/motion.js`: `spring`, ~5% overshoot, settles in ~0.5 s); exits ease in; camera moves ease in-out.
+- Anticipation before big moves (`anticipate`), staggered follow-through for groups (`follow`, 20-60 ms per item), motion blur only while fast (`blurFromSpeed`), and a hold so each element rests long enough to read.
+- Show real interfaces, not drawn mock-ups: record the actual app (screen recording, or Claude driving OBS through an MCP server) and animate punch-ins on the real cursor clicks. Generic fake UI is another tell.
+- Claude executes; Andrew sets the creative direction for every animation scene.
+- Deeper reference: `docs/motion/motion-playbook.md` (Prompt Motion library); frame-level motion blur in `render_gfx.py` (`GFX_SUBFRAMES=8`) pairs with `blurFromSpeed` for per-element blur.
 
 ## 5. Set reveal (kaye.creatives intro)
 What happens: 0-1.9s locked-off cosy room, words pop in near the head (sans + italic serif emphasis). At ~1.9s the walls fall away from the subject, hinged at the floor (back wall tips backward, sides drop outward). The camera does one continuous crane back + up (2.0-5.6s) until the set is a small platform in the middle of a night stadium. The topic is then painted huge on the ground.

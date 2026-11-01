@@ -36,10 +36,12 @@ python3 ../../scripts/denoise.py .        # DPDFNet 48 kHz → den48.wav
 python3 ../../scripts/sound.py . A        # voice.wav, music.wav, sfx_A.wav
 bash ../../scripts/mix.sh . A 1           # → mix_A.wav at -14 LUFS (and `0` for the no-music version)
 ```
-SFX names: whoosh(d,lo,hi) thump(g) paper(g) tick(f,g) key(g) swell(d) boom() shimmer() pop(). Times are seconds or a spoken word
+SFX names: any folder in the real SFX library (`sound.json` "sfx_dir", env SFX_DIR, default ~/claude-video-studio-sfx; see look-and-sound §3c).
+Synth fallback (warns, sounds AI-made): whoosh(d,lo,hi) thump(g) paper(g) tick(f,g) key(g) swell(d) boom() shimmer() pop(). Times are seconds or a spoken word
 ("ROBERTO", "CUTS@10.5"). Keep them quiet and organic (gains 0.05-0.22). Claude cannot hear: verify with loudness + spectrum numbers.
 
 ## 5. Graphics
+- Load `templates/motion.js` and use its springs, anticipation, stagger and motion blur instead of linear or plain ease moves (look-and-sound §4b).
 - Copy `templates/gfx_fullframe_example.html` to the project and rewrite the scene functions for this script. Reusable parts:
   captions (`capHTML`), letter write-on (`writeOn`), typed text, card slam + collage fan (scene1 A), thumbnail grid + scan line (scene1 B),
   creator card + cut timeline (`track`), app window → video reveal with a hole (scene3), CTA pill. Scene windows are `S1/S2/S3`.

@@ -19,8 +19,10 @@ def rd(p):
     w = wave.open(p); a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768
     return a.reshape(-1, w.getnchannels()).mean(1) if w.getnchannels() > 1 else a
 def wr(p, x):
-    x = np.clip(x, -1, 1); ch = 1 if x.ndim == 1 else 2; w = wave.open(p, 'w'); w.setnchannels(ch); w.setsampwidth(2); w.setframerate(SR)
-    w.writeframes((x.T.reshape(-1) if ch == 2 else x).__mul__(32767).astype(np.int16).tobytes()); w.close()
+    x = np.clip(x, -1, 1); ch = 1 if x.ndim == 1 else 2
+    if ch == 2 and x.shape[0] == 2 and x.shape[1] != 2: x = x.T   # frames x channels, so reshape interleaves L,R
+    w = wave.open(p, 'w'); w.setnchannels(ch); w.setsampwidth(2); w.setframerate(SR)
+    w.writeframes((x.reshape(-1) if ch == 2 else x).__mul__(32767).astype(np.int16).tobytes()); w.close()
 def filt(x, f, kind, o=2): return sosfilt(butter(o, f, btype=kind, fs=SR, output='sos'), x)
 lp = lambda x, f, o=2: filt(x, f, 'low', o); hp = lambda x, f, o=2: filt(x, f, 'high', o)
 bp = lambda x, a, b, o=2: filt(x, [a, b], 'band', o)
@@ -142,6 +144,36 @@ def pop():
     return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 40)
 
 LIB = dict(whoosh=whoosh, thump=thump, paper=paper, tick=tick, key=key, swell=swell, boom=boom, shimmer=shimmer, pop=pop)
+
+# ---------------- real recorded SFX (preferred) ----------------
+# Synthesized SFX read as "AI-made" to viewers. When a library folder exists, an event name loads a
+# real recording: SFX_DIR/<name>/*.wav (e.g. sfx/airy-whoosh/01.wav, sfx/glass-pop/02.wav). Each hit picks
+# a different take and gets +-3% pitch and +-1.5 dB gain so repeats never sound identical.
+# Library path: sound.json "sfx_dir", else env SFX_DIR, else ~/claude-video-studio-sfx. Synth = fallback only.
+SFX_DIR = os.path.expanduser(CFG.get('sfx_dir') or os.environ.get('SFX_DIR') or '~/claude-video-studio-sfx')
+_takes = {}; _synth_used = set()
+def _load_any(p):
+    w = wave.open(p); sr = w.getframerate(); sw = w.getsampwidth(); ch = w.getnchannels(); raw = w.readframes(w.getnframes())
+    dt = {1: np.uint8, 2: np.int16, 4: np.int32}[sw]; a = np.frombuffer(raw, dt).astype(np.float32)
+    a = (a - 128) / 128 if sw == 1 else a / float(2 ** (8 * sw - 1))
+    a = a.reshape(-1, ch).mean(1) if ch > 1 else a
+    if sr != SR: a = np.interp(np.arange(int(len(a) * SR / sr)) * sr / SR, np.arange(len(a)), a)
+    return a
+def sample(name):
+    d = os.path.join(SFX_DIR, name)
+    if name not in _takes:
+        fs = sorted(f for f in os.listdir(d) if f.lower().endswith('.wav')) if os.path.isdir(d) else []
+        _takes[name] = [_load_any(os.path.join(d, f)) for f in fs]
+    takes = _takes[name]
+    if not takes: return None
+    x = takes[rng.integers(len(takes))]; r = 1 + rng.uniform(-0.03, 0.03)
+    x = np.interp(np.arange(0, len(x) - 1, r), np.arange(len(x)), x)
+    return x * 10 ** (rng.uniform(-1.5, 1.5) / 20)
+def sfx(name, args):
+    x = sample(name)
+    if x is not None: return x
+    if name not in LIB: raise SystemExit(f'SFX "{name}" not in {SFX_DIR} and no synth fallback; add recordings to {SFX_DIR}/{name}/')
+    _synth_used.add(name); return LIB[name](*args)
 def when(x):
     if isinstance(x, (int, float)): return float(x)
     w, _, a = str(x).partition('@'); return wt(w.upper(), float(a or 0))
@@ -149,9 +181,10 @@ def build(events):
     fx = np.zeros(N)
     for ev in events:
         name, at, g = ev[0], when(ev[1]), ev[2]; args = ev[3] if len(ev) > 3 else []
-        x = LIB[name](*args); s0 = int(at * SR)
+        x = sfx(name, args); s0 = int(at * SR)
         if 0 <= s0 < N: e = min(N, s0 + len(x)); fx[s0:e] += x[:e - s0] * g
     return verb(fx, IR_ROOM, 0.18)
 ev = CFG.get('sfx_' + STYLE, CFG.get('sfx', []))
 wr(f'sfx_{STYLE}.wav', build(ev).T)
 print('sound done', round(DUR, 2), 's,', len(ev), 'sfx events')
+if _synth_used: print('WARNING: synthesized SFX used for', ', '.join(sorted(_synth_used)), '- these can sound AI-made; add real recordings to', SFX_DIR)
