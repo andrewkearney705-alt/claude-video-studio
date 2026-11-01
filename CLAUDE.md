@@ -10,7 +10,7 @@ Read `CURATION.md`. In short:
 - Strategies Andrew collects (Kallaway, Mino Lee, kaye, etc.) are **reference**, not house rules, unless he adopts them.
 
 ## Never commit
-Footage, renders, voice, models, fonts, keys, personal details, or anything naming his employer (say "a Fortune 500 insurer").
+Footage, renders, voice, models, fonts, keys, personal details, or anything naming his employer (say "a global insurance company").
 
 ## Pushing
 `git pull --rebase` before you push. Plain commit messages. If a push is refused, put the change in a `kitsignals` doc so the Curator applies it; don't hand Andrew zip files.
