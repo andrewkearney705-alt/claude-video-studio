@@ -2,6 +2,12 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-01 — Motion graphics: Prompt Motion library + motion blur
+- Andrew asked the editing/motion team to study everything in griffinwooldridge1's reel (DeLw2M6mx8n) on Prompt Motion, a gallery of Claude-made motion films with their prompts.
+- Copied all 233 entries to `docs/motion/prompt-motion-catalog.json` (reference; prompts belong to their creators). Distilled `docs/motion/motion-playbook.md`: what the library shows, borrowed motion rules (HeyGen HyperFrames motion doctrine), the brief template, gotchas, entries to open first.
+- Tooling: `render_gfx.py` gains optional motion blur (`GFX_SUBFRAMES=8`), tested on a fast-moving box. Off by default; nothing else changed.
+- Also studied (signals filed): jun_yuh B-Roll Director (DfMB6cExd0Y), heystevetan OpenReply comment-to-DM (DbVq4mwz38L), rpn photos-to-3D dollhouse (DdHWQ3CJb6i).
+
 ## 2026-11-01 — Kit Curator, first run
 - Brand decisions from the Brand OS folded into `knowledge/my-flavor.md`: day job is "a global insurance company" on Instagram (company topics LinkedIn-only), no banned topic categories, voice never cocky, handle settled. Same employer wording in `CLAUDE.md` and `CURATION.md`.
 - Andrew's Content Vault picks added to `my-flavor.md`: 6 adopted options (dark warm set, one clay accent, desk-card alternation, serif write-on, set reveal, one-clip-many-versions) and a liked shortlist. Liked items stay opt-in; dense SFX conflicts with the calmer defaults, so nothing in `look-and-sound.md` changed.
