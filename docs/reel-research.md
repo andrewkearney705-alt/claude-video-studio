@@ -8,6 +8,8 @@ Use the built-in browser (Andrew is logged into Instagram there). Instagram's AP
 - Keep each call under ~40 s (tool timeout); split long reels into several calls.
 - Helpers vanish on every navigation: redefine them after `navigate`.
 - After running a sampler, take a screenshot: the contact sheet is drawn as a fixed overlay `#__cs` at the top-left.
+- A profile's reels grid (`instagram.com/<handle>/reels/`) won't render in the hidden pane: `a[href*="/reel/"]` stays empty until any screenshot is taken (scale 0.2 is enough). Recipe: navigate, wait 4 s, screenshot, then read the anchors' text for view counts. [Reel Scout: worked for 9 creators, Nov 1 2026; failed every time without the screenshot]
+- A reel's post date can be read from its shortcode without opening it: decode the first 11 characters as Instagram base64 into a number `id`; `(id >> 23) + 1314220021721` is the post time in ms since 1970. Handy for "posted in the last 14 days" filters.
 - YouTube: wait out ads first (`.ad-showing`, click `.ytp-skip-ad-button`). Video element: `#movie_player video`.
 
 ## Seek sampler (finite duration: most reels on second load, all YouTube)
@@ -79,3 +81,4 @@ Then turn the patterns into rules and a recipe; save them in `docs/` and the mat
 - kaye.creatives DduIcDJI3vP: 4:3 split news explainer (face left, one-phrase card right every 1.5-2 s), heavy condensed caps + italic serif word, AI-generated self inserts. 21.4K likes.
 - kallawaymarketing Dd8vo8IxamX: creator teardown of Nate Gaffney with Claude + Sandcastles; 3 named patterns, section chips, proof graphics, "Comment NATE". 1,397 likes, 526 comments. See `formats/creator-teardown.md`.
 - abigaildaniellla DbJEDXOxgkC: "sound effects make talking heads less boring" (33 s). Word-by-word white captions with yellow key words, b-roll montage of her own clips, white list cards ("Verbal hook / Intro text / Overlays / Transitions / Visual examples"), "Comment SOUND". 9,618 likes, 4,103 comments. SFX placement measured from the audio: see `look-and-sound.md` §3b.
+- Nov 2026 Reel Scout and research breakdowns (full notes in the Content Vault): mostly.running DfHj2K_SwY3 (no-talk meme-text setup, own run data as VFX, ~100x outlier); duncanrogoff DfAtBw1iQj9 (new-model name + owned pain hook, 9.7x); kaye.creatives DfBGHPBybz2 (AI ceremony skit on a live cultural moment, 33x); joeysdayinthelifee DfJCM2rqzOr (blue-hour one-take, universal reframe, 3.0x); thedashbit DfIi17PzWTR (software shot like a product: dark room, screen as only light, low raking glide).
