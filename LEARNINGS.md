@@ -2,6 +2,9 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-02 — Apple-style motion noted (reference)
+- Added one reference line to `docs/motion/motion-playbook.md` (springs, no bounce unless flicked, glass panels, tight tracking on big type) from Andrew's Apple design skill request. Other open editing/sound signals were already in the kit from Nov 1 chat pushes.
+
 ## 2026-11-01 — Real SFX, motion principles, demo-film format, stereo bug fixed
 - **Bug fixed in `sound.py`:** stereo files (music.wav, sfx_*.wav) were written de-interleaved (all left samples, then all right), so music and SFX played at double speed. Verified on a synthetic project: hits now land at the requested times in both channels. Re-render any earlier test mixes.
 - **Real recorded SFX:** `sound.py` loads `SFX_DIR/<name>/*.wav` first (random take, ±3% pitch, ±1.5 dB) and only falls back to the synth with a warning. Source: withian.t DfLz2NMsgxz ("Why your Claude edits feel AI": synthesized sound, fake UI and linear motion are the tells). Andrew asked Claude to act on it.

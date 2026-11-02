@@ -22,6 +22,7 @@ Status: **reference + tooling**. Learned 2026-11-01 from the Prompt Motion libra
 9. **Two or three transition types per video**, repeated. Variety reads as noise.
 10. **Music is the clock.** Find the beat grid in the track first; land every change on a beat; place each sound effect on its visual hit.
 11. **Loops:** last frame identical to the first (cursor position and speed included).
+12. **Apple-style finish (reference, from the apple-design skill):** springs instead of easing curves, no bounce unless the motion was flicked, glass panels blur and scale in, about -0.02em letter spacing on big type. Compare with rule 8 before using; Andrew has not made it a house rule.
 
 ## 3. The brief Claude writes before any motion scene
 ```
