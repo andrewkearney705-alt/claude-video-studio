@@ -2,6 +2,14 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-03 — Curator: HLG number, text rule, caption house rules, pace pattern
+- `look-and-sound.md` still said `npl=100` for HLG; now `npl=400` like `cut.py` (100 clipped skin).
+- `founder-one-take.md`: Andrew rejected a pinned headline and series framing; Greg's pinned headline is now reference only and the kinetic key-word text is the current approach.
+- `style-bible.md`: Jake's caption phrasing and safe-zone rules added as a house rule (Andrew asked to pull the best of his setup).
+- `patterns.md`: "shorter, faster cut beats the long one" is Emerging (3 reels, 3 creators); the keyword-CTA line now notes the newest reels won on topic and pace, not the CTA. Six new Seen patterns.
+- `RUNBOOK.md`: gzip + split for big renders. `reel-research.md`: browser-pane and handle notes.
+- Not applied: `deadspace.py` and `stopmotion.py` (not in the repo, untested on footage), and the uncompressed-voice A/B (render both on the next edit and let Andrew choose by ear).
+
 ## 2026-11-02 (later) — Andrew's notes on the car-video text
 - Andrew: on-screen text "not very engaging"; doesn't want a pinned headline that stays up, and doesn't want reels framed as a series (they're trial reels, tested against each other).
 - Rebuilt with `templates/gfx_kinetic.html` (from liked vault positions: kaye word-by-word condensed caps + one italic serif word, rpn keyword promotion into a different display face every few seconds, gp__multimedia text behind the subject, colour carries meaning): a key word hard-cuts in on its syllable every 2-4 s (Bebas / Instrument Serif italic / Great Vibes / Unbounded 900), clay = the emotional word, lines auto-fit to 780 px, mono captions build word by word.
