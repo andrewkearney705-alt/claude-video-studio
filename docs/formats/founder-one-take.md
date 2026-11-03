@@ -22,7 +22,7 @@ Greg posts daily and most of his reels have **zero or almost zero cuts**. The ed
 Rule: **the location must be part of the message.** Never sit still in a neutral room.
 
 ## The recipe
-1. **One line of tension** written as the pinned headline (small, white, top-center, stays on the whole video): "Money can't buy this", "you know you're capable of more", "If you're in your 20s".
+1. **One line of tension** as the opening hook. Greg pins it at the top for the whole video, but Andrew rejected a pinned headline (Nov 2026): use key-word pops instead (below).
 2. **Talk 20–45 seconds, one take.** Story first, lesson last. Start mid-sentence or mid-walk.
 3. **Product or proof in frame**: the can in hand, the truck, a screenshot of a number popped in for 2s (search-volume table, sales figure).
 4. **Captions:** small sentence-case subtitles, 3–6 words per line, centered mid-low. Optional yellow for the key phrase.
@@ -38,7 +38,8 @@ Rule: **the location must be part of the message.** Never sit still in a neutral
 Phone at arm's length or a friend filming, 0.5x or 1x, eye level, walking toward camera or with the camera walking backward. Busy, real, interesting location. Golden hour or neon-lit interiors.
 
 ## Look & feel spec (from the frame-by-frame review; full detail in style-bible.md)
-- **Pinned headline:** all lowercase, 2 short lines, white semibold sans (Instagram-native look / Inter), small, top-centre, no box, on from frame 1 to the last frame. No animation.
+- **Greg's pinned headline** (reference only, Andrew doesn't want it): lowercase, 2 short lines, white semibold sans, top-centre, on the whole video.
+- **Andrew's text, v2 (`templates/gfx_kinetic.html`):** a key word hard-cuts in on its syllable every 2-4 s in a rotating display face, the emotional word in clay, some words partly behind the head (`GFX_BACK`), mono captions building word by word. Awaiting his verdict. Do not frame reels as a series: they are trial reels tested against each other. [Andrew, Nov 2 2026]
 - **Captions:** sentence case, 3–6 words, max 2 lines, white, mid-frame; hard cuts by phrase.
 - **Proof pop-in:** a screenshot (search volumes, a sales number, a headline) dropped on for 2–3s.
 - **Quote-card variant:** handwritten white marker text (Caveat Brush), key word capitalised and underlined; start small, cut with a body-wipe to a wide where it's big; then place it behind you (cut-out) so you walk in front of it.
