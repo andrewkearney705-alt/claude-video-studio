@@ -4,7 +4,8 @@ Learned from Andrew's feedback on v1/v2, from studying Peter McKinnon, Matt D'Av
 
 ## 1. Color: start from correct pixels
 - iPhone footage is usually **HDR (HLG, bt2020, 10-bit)**. Check with `ffprobe ... color_transfer`. If it says `arib-std-b67`, tone-map first or everything looks flat and washed out:
-  `zscale=tin=arib-std-b67:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv`
+  `zscale=tin=arib-std-b67:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=400,format=gbrpf32le,zscale=p=bt709,tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv`
+  Use `npl=400`, not 100: at 100 skin clipped to pink-white on a daylight car clip ("way blown out"). [Andrew's feedback + 5-variant frame test, Nov 2026]
 - Cut segments one at a time from the 4K original (`-ss` per segment), never 14 trims in one filter graph (runs out of memory).
 - Keep the source frame rate (iPhone cinematic = 24fps). Re-time word timestamps to the 24fps cut.
 
