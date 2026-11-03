@@ -21,6 +21,8 @@ def rmask(w,h,r):
     for cx,cy in ((r,r),(w-r-1,r),(r,h-r-1),(w-r-1,h-r-1)): cv2.circle(m,(cx,cy),r,1,-1,lineType=cv2.LINE_AA)
     return m
 rng=np.random.default_rng(1)
+# optional text-behind-subject layer: GFX_BACK=<dir of PNGs>; the person (masks.npy) is laid back over it
+BACK=os.environ.get('GFX_BACK'); MK=np.load(P+'/masks.npy',mmap_mode='r') if BACK else None
 dec=subprocess.Popen(['ffmpeg','-v','error','-i',P+'/graded.mov','-f','rawvideo','-pix_fmt','rgb48le','-'],stdout=subprocess.PIPE)
 enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb48le','-s',f'{W}x{H}','-r',str(F),'-i','-','-i',AUD,
    '-c:v','libx264','-preset','slow','-crf','16','-pix_fmt','yuv420p','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
@@ -33,7 +35,17 @@ while True:
     fr=np.frombuffer(b,np.uint16).reshape(H,W,3).astype(np.float32)/65535
     if INTRO and os.path.exists(f'{INTRO}/{i:05d}.png'):
         fr=cv2.cvtColor(cv2.imread(f'{INTRO}/{i:05d}.png'),cv2.COLOR_BGR2RGB).astype(np.float32)/255
-    else: fr=zoom(fr,Z(t))
+    else:
+        if BACK and os.path.exists(f'{BACK}/{i:05d}.png'):
+            gb=cv2.imread(f'{BACK}/{i:05d}.png',cv2.IMREAD_UNCHANGED).astype(np.float32)/255
+            if gb[...,3].max()>0:
+                m=cv2.resize(MK[min(i,len(MK)-1)].astype(np.float32)/255,(W,H),interpolation=cv2.INTER_CUBIC)
+                gy=cv2.cvtColor((np.clip(fr,0,1)*255).astype(np.uint8),cv2.COLOR_RGB2GRAY)
+                m=cv2.ximgproc.guidedFilter(gy,(np.clip(m,0,1)*255).astype(np.uint8),4,30).astype(np.float32)/255
+                m=np.clip((m-0.3)/0.5,0,1)[...,None]
+                ab=gb[...,3:4]; cb=cv2.cvtColor(gb[...,:3],cv2.COLOR_BGR2RGB)
+                fr=(fr*(1-ab)+cb*ab)*(1-m)+fr*m
+        fr=zoom(fr,Z(t))
     g=cv2.imread(f'{GD}/{i:05d}.png',cv2.IMREAD_UNCHANGED)
     g=g.astype(np.float32)/255
     if g.shape[2]==3: g=np.dstack([g,np.ones((H,W),np.float32)])

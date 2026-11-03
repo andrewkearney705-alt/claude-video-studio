@@ -2,6 +2,12 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-02 (later) — Andrew's notes on the car-video text
+- Andrew: on-screen text "not very engaging"; doesn't want a pinned headline that stays up, and doesn't want reels framed as a series (they're trial reels, tested against each other).
+- Rebuilt with `templates/gfx_kinetic.html` (from liked vault positions: kaye word-by-word condensed caps + one italic serif word, rpn keyword promotion into a different display face every few seconds, gp__multimedia text behind the subject, colour carries meaning): a key word hard-cuts in on its syllable every 2-4 s (Bebas / Instrument Serif italic / Great Vibes / Unbounded 900), clay = the emotional word, lines auto-fit to 780 px, mono captions build word by word.
+- `composite.py` gains `GFX_BACK=<dir>`: a layer composited under the person using masks.npy, so big words sit behind the head. Anchor the last line's glyph bottom ~1 head-height above the face (y ~700 for this framing) or the key word gets hidden.
+- Awaiting Andrew's verdict on v2.
+
 ## 2026-11-02 — First car video (iPhone, daylight, parked): fixes found on real footage
 - **HDR was too hot.** `cut.py` tone-mapped HLG with npl=100, which clipped skin to pink-white (Andrew: "way blown out"). Now npl=400 + mobius: skin and sky hold. Re-cut anything made before this.
 - **Transcripts dropped words.** Fixed 20 s chunks lost most of any chunk that began mid-sentence. `transcribe.py` now splits on pauses with Silero VAD (`models/silero_vad.onnx`, added to `setup.sh`). Car music/handling noise is not speech: DPDFNet removes it, a quick way to tell.

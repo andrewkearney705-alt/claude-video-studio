@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Kinetic talking-head text (Nov 2026): no pinned headline. Two layers rendered separately:
+     ?s=back  -> big "pop" words that sit BEHIND the subject (composite.py re-lays the person over them with the mask)
+     ?s=front -> small Space Mono captions, built word by word on the syllable (plus any front pops)
+     Pops: a key word jumps out of the captions into a display face (condensed caps, italic serif, script, wide slam),
+     hard cut on the spoken word with a 2-3 frame smear/settle, hard cut off. Colour: clay accent = the emotional word.
+     CFG.pops: [{t0,t1,layer:'back'|'front',y,cap:[a,b] (hide captions in this window),items:[{text,f:'cond'|'it'|'script'|'slam'|'mono',size,color,t,dy,dx,strike}]}]
+     CFG.labels (blooper slates): [[t0,t1,"TAKE 3"]] big stamp for 0.55 s, then a small corner slate. -->
+<style>
+@font-face{font-family:Mono;font-weight:700;src:url(../fonts/fontsource-space-mono/files/space-mono-latin-700-normal.woff2)}
+@font-face{font-family:Serif;font-style:italic;src:url(../fonts/fontsource-instrument-serif/files/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:Serif;font-style:normal;src:url(../fonts/fontsource-instrument-serif/files/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:Cond;src:url(../fonts/fontsource-bebas-neue/files/bebas-neue-latin-400-normal.woff2)}
+@font-face{font-family:Script;src:url(../fonts/fontsource-great-vibes/files/great-vibes-latin-400-normal.woff2)}
+@font-face{font-family:Slam;font-weight:900;src:url(../fonts/fontsource-unbounded/files/unbounded-latin-900-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+.ln{will-change:transform;position:absolute;left:0;right:0;text-align:center;white-space:nowrap;line-height:.9}
+.f-cond{font-family:Cond;letter-spacing:.01em;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.f-it{font-family:Serif;font-style:italic;letter-spacing:-.01em;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.f-script{font-family:Script;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.f-slam{font-family:Slam;font-weight:900;letter-spacing:-.02em;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.f-mono{font-family:Mono;font-weight:700;text-transform:uppercase;letter-spacing:.2em;text-shadow:0 2px 12px rgba(0,0,0,.7),0 0 3px rgba(0,0,0,.6)}
+.cap{will-change:transform;position:absolute;left:0;right:0;text-align:center;font-family:Mono;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:#fff;white-space:nowrap;
+     text-shadow:0 2px 12px rgba(0,0,0,.75),0 0 3px rgba(0,0,0,.6)}
+</style></head><body><div id="o"></div>
+<script>
+const TL=__TIMELINE__, W=TL.words, LAYER=(new URLSearchParams(location.search)).get('s')||'front';
+const CFG=__CFG__, F=24;
+window.ready=Promise.all(['700 30px Mono','italic 80px Serif','80px Cond','80px Script','900 80px Slam'].map(f=>document.fonts.load(f)));
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), pr=(t,a,b)=>cl((t-a)/(b-a)), eo=x=>1-Math.pow(1-x,3);
+// captions: phrase groups (g) from the edit; words appear on their syllable (hard cut, no preview)
+const G=[];W.forEach(w=>{let g=G.find(x=>x.k===w.g);if(!g){g={k:w.g,ws:[]};G.push(g)}g.ws.push(w)});
+G.forEach(g=>g.t0=g.ws[0].t);G.forEach((g,i)=>{const last=g.ws[g.ws.length-1];g.t1=i<G.length-1?Math.min(G[i+1].t0,last.t+1.0):Math.min(TL.dur,last.t+1.0)});
+function capHidden(t){return (CFG.pops||[]).some(p=>p.cap&&t>=p.cap[0]&&t<p.cap[1])}
+function cap(t){if(capHidden(t))return'';const g=G.find(g=>t>=g.t0&&t<g.t1);if(!g)return'';
+ const vis=g.ws.filter(w=>t>=w.t-1/F/2);
+ return `<div class="cap" style="top:${CFG.capY}px;font-size:${CFG.capSize}px">${vis.map(w=>w.w).join(' ')}</div>`}
+// one pop item: hard cut on at item.t; 3-frame settle (scale 1.08 -> 1, blur 8 -> 0), optional strike line
+function item(it,t,y,color){if(t<it.t-1/F/2)return'';const p=it.t<=0?1:eo(pr(t,it.t,it.t+3/F));
+ const col=it.color||color||'#fff';
+ let inner=it.text;
+ if(it.strike!=null){const s=eo(pr(t,it.strike,it.strike+.25));
+   inner=`<span style="position:relative;display:inline-block">${inner}<span style="position:absolute;left:-4%;top:52%;height:${Math.max(6,it.size*.06)}px;width:${s*108}%;background:${CFG.acc}"></span></span>`}
+ return `<div class="ln f-${it.f}" style="top:${y+(it.dy||0)}px;left:${it.dx||0}px;font-size:${it.size}px;color:${col};transform:scale(${1.08-.08*p});filter:blur(${(1-p)*8}px);opacity:${.4+.6*p}"><span class="fit" style="display:inline-block">${inner}</span></div>`}
+function labels(t){let o='';(CFG.labels||[]).forEach(([a,b,txt])=>{if(t<a||t>=b)return;
+  const n=txt.replace(/\D/g,'');
+  if(t<a+0.55){const p=eo(pr(t,a,a+3/F));   // big stamp
+    o+=`<div class="ln f-cond" style="top:${CFG.stampY||700}px;font-size:300px;color:#fff;transform:scale(${1.1-.1*p});filter:blur(${(1-p)*8}px)">TAKE <span style="font-family:Serif;font-style:italic;color:${CFG.acc}">${n}</span></div>`}
+  else o+=`<div class="ln f-mono" style="top:${CFG.labelY||250}px;font-size:34px;color:#fff"><span style="display:inline-block;width:.55em;height:.55em;border-radius:50%;background:${CFG.acc};margin-right:.6em;vertical-align:.05em;opacity:${Math.floor(t*2)%2?1:.35}"></span>TAKE ${n.padStart(2,'0')}</div>`});return o}
+window.render=function(t){
+ let o='';
+ (CFG.pops||[]).forEach(p=>{if((p.layer||'back')!==LAYER||t<p.t0||t>=p.t1)return;p.items.forEach(it=>o+=item(it,t,p.y,p.color))});
+ if(LAYER==='front'){o+=labels(t);o+=cap(t);
+   if(CFG.end&&t>=CFG.end[0]){const p=eo(pr(t,CFG.end[0],CFG.end[0]+3/F));
+     o+=`<div class="ln f-it" style="top:${CFG.endY}px;font-size:${CFG.endSize}px;color:#fff;transform:scale(${1.08-.08*p});filter:blur(${(1-p)*8}px)">${CFG.end[1]}</div>`}}
+ const O=document.getElementById('o'); O.innerHTML=o;
+ // keep every big line inside the safe width (punch-ins add ~10%): shrink the font, never wrap
+ O.querySelectorAll('.fit').forEach(sp=>{const w=sp.offsetWidth,M=CFG.maxW||780;if(w>M){const ln=sp.parentElement;ln.style.fontSize=(parseFloat(ln.style.fontSize)*M/w)+'px'}});
+ return null;
+}
+</script></body></html>
