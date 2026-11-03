@@ -10,7 +10,8 @@ def Z(t):
     for a,b,z0,z1 in ZP:
         if a<=t<b: return z0+(z1-z0)*(t-a)/(b-a)
     return 1.0
-def zoom(img,z,cx=0.52,cy=0.46):
+ZC=[float(v) for v in os.environ.get('ZOOM_CENTER','0.52,0.46').split(',')]  # punch-in centre (face position), e.g. ZOOM_CENTER=0.5,0.55
+def zoom(img,z,cx=ZC[0],cy=ZC[1]):
     if z<=1.0001: return img
     w,h=W/z,H/z; x0=np.clip(cx*W-w/2,0,W-w); y0=np.clip(cy*H-h/2,0,H-h)
     M=np.float32([[z,0,-x0*z],[0,z,-y0*z]]); return cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REFLECT)

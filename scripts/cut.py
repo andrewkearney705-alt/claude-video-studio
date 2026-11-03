@@ -10,10 +10,17 @@ probe = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 
 a, b = probe['r_frame_rate'].split('/'); F = round(int(a) / int(b))
 hdr = probe.get('color_transfer') in ('arib-std-b67', 'smpte2084')
 print('fps', F, 'HDR' if hdr else 'SDR', probe['width'], 'x', probe['height'])
-TM = ("zscale=tin=arib-std-b67:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=100:w=1080:h=1920:f=spline36,format=gbrpf32le,zscale=p=bt709,"
+# HLG -> SDR: npl=400 keeps iPhone skin and sky out of clipping (npl=100 blew skin out; car-video test Nov 2026)
+TM = ("zscale=tin=arib-std-b67:min=bt2020nc:pin=bt2020:rin=tv:t=linear:npl=400:w=1080:h=1920:f=spline36,format=gbrpf32le,zscale=p=bt709,"
       "tonemap=mobius:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv444p10le") if hdr else \
      "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,format=yuv444p10le"
 if hdr and probe.get('color_transfer') == 'smpte2084': TM = TM.replace('tin=arib-std-b67', 'tin=smpte2084')
+# optional reframe before scaling (uses the 4K pixels, so a punch-in stays sharp): CROP="zoom,cx,cy"
+# cx/cy = where the crop window sits in the leftover margin (0 = left/top, 0.5 = centre, 1 = right/bottom)
+if os.environ.get('CROP'):
+    z, cx, cy = map(float, os.environ['CROP'].split(','))
+    TM = f"crop=trunc(iw/{z}/2)*2:trunc(ih/{z}/2)*2:(iw-iw/{z})*{cx}:(ih-ih/{z})*{cy}," + TM.replace('scale=1080:1920:force_original_aspect_ratio=increase', 'scale=1080:1920')
+    print('reframe', z, cx, cy)
 edl = json.load(open(f'{P}/edl.json')); segs = []; o = 0; L = []
 os.makedirs(f'{P}/segs', exist_ok=True)
 for i, s in enumerate(edl):

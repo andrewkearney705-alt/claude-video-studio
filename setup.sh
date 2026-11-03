@@ -11,6 +11,8 @@ cd models
 [ -f human.onnx ] || curl -sSL -o human.onnx https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx
 # full-band 48 kHz speech denoiser
 [ -f dpdfnet2_48khz_hr.onnx ] || curl -sSL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2_48khz_hr.onnx
+# voice activity detection (transcribe.py splits on pauses with it)
+[ -f silero_vad.onnx ] || curl -sSL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
 # English speech-to-text with word timestamps
 if [ ! -d sherpa-onnx-zipformer-en-2023-06-26 ]; then
   curl -sSL -o zf.tar.bz2 https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2

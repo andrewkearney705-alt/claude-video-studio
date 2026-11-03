@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- One-take talking head overlay (founder one-take format in Andrew's look):
+     pinned serif headline that writes on letter by letter, optional clay strike, small series kicker,
+     Space Mono caption phrases. Config block CFG below; captions read words_cut.json (+ optional "g" phrase ids). -->
+<style>
+@font-face{font-family:Mono;font-weight:700;src:url(../fonts/fontsource-space-mono/files/space-mono-latin-700-normal.woff2)}
+@font-face{font-family:Serif;font-style:normal;src:url(../fonts/fontsource-instrument-serif/files/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:Serif;font-style:italic;src:url(../fonts/fontsource-instrument-serif/files/instrument-serif-latin-400-italic.woff2)}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+.t{position:absolute;left:0;right:0;text-align:center;color:#fff;white-space:nowrap}
+.serif{font-family:Serif;line-height:1;text-shadow:0 3px 24px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.35)}
+.mono{font-family:Mono;font-weight:700;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.7),0 0 3px rgba(0,0,0,.6)}
+.ltr{display:inline-block}
+</style></head><body><div id="o"></div>
+<script>
+const TL=__TIMELINE__, W=TL.words;
+const CFG=__CFG__;
+window.ready=Promise.all([document.fonts.load('700 30px Mono'),document.fonts.load('80px Serif'),document.fonts.load('italic 80px Serif')]);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), pr=(t,a,b)=>cl((t-a)/(b-a)), eo=x=>1-Math.pow(1-x,3);
+function writeOn(text,t,t0,st=0.045,dur=0.26){return [...text].map((c,i)=>{const p=eo(pr(t,t0+i*st,t0+i*st+dur));
+ return `<span class="ltr" style="opacity:${p};filter:blur(${(1-p)*12}px);transform:translateY(${(1-p)*16}px)">${c===' '?'&nbsp;':c}</span>`}).join('')}
+// caption phrases: words carry g (phrase id) from the edit; a phrase shows from its first word to the next phrase (or 0.6 s after its last word)
+const G=[];W.forEach(w=>{if(w.hide)return;const k=w.g;let g=G.find(x=>x.k===k);if(!g){g={k,ws:[]};G.push(g)}g.ws.push(w)});
+G.forEach(g=>g.t0=g.ws[0].t);G.forEach((g,i)=>{const last=g.ws[g.ws.length-1];g.t1=i<G.length-1?Math.min(G[i+1].t0,last.t+1.2):Math.min(TL.dur,last.t+1.0)});
+function cap(t){const g=G.find(g=>t>=g.t0&&t<g.t1);if(!g)return'';
+ return `<div class="t mono" style="top:${CFG.capY}px;font-size:${CFG.capSize}px;letter-spacing:.16em">${g.ws.map(w=>`<span style="opacity:${t>=w.t?1:.45}">${(w.d||w.w)}</span>`).join(' ')}</div>`}
+window.render=function(t){
+ let o='';const H=CFG.head||{lines:[]};
+ const showHead=!(H.t1!=null&&t>=H.t1);
+ // slate labels (e.g. blooper takes): [[t0,t1,"TAKE 3"],...] small mono with a clay REC dot
+ (CFG.labels||[]).forEach(([a,b,txt])=>{if(t>=a&&t<b){const p=eo(pr(t,a,a+.12));
+   o+=`<div class="t mono" style="top:${CFG.labelY||300}px;font-size:${CFG.labelSize||40}px;letter-spacing:.2em;opacity:${p};transform:scale(${1.08-.08*p})"><span style="display:inline-block;width:.5em;height:.5em;border-radius:50%;background:${CFG.acc};margin-right:.5em;vertical-align:.08em;opacity:${Math.floor(t*2)%2?1:.35}"></span>${txt}</div>`}});
+ // end line: [t0,"text"] serif italic write-on
+ if(CFG.end&&t>=CFG.end[0])o+=`<div class="t serif" style="top:${CFG.endY||1250}px;font-size:${CFG.endSize||84}px"><i>${writeOn(CFG.end[1],t,CFG.end[0],0.04)}</i></div>`;
+ // kicker (series label)
+ if(showHead&&H.kicker)o+=`<div class="t mono" style="top:${H.y-58}px;font-size:24px;letter-spacing:.24em;opacity:.92">${writeOn(H.kicker,t,H.t0,0.018,.18)}</div>`;
+ // headline lines
+ if(showHead)H.lines.forEach((L,i)=>{const t0=H.t0+0.15+(L.dt||0);
+   let inner=writeOn(L.text,t,t0,L.st||0.045);
+   if(L.under!=null){const p=eo(pr(t,L.under,L.under+.32));
+     inner=`<span style="position:relative;display:inline-block">${inner}<span style="position:absolute;left:0;bottom:-2px;height:5px;width:${p*100}%;background:${CFG.acc};box-shadow:0 1px 6px rgba(0,0,0,.25)"></span></span>`}
+   if(L.strike!=null){const p=eo(pr(t,L.strike,L.strike+.28));
+     inner=`<span style="position:relative;display:inline-block">${inner}<span style="position:absolute;left:-8px;top:54%;height:6px;width:calc(${p*100}% + 16px);background:${CFG.acc};box-shadow:0 1px 6px rgba(0,0,0,.25)"></span></span>`}
+   o+=`<div class="t serif" style="top:${H.y+i*H.lh}px;font-size:${L.size}px">${L.it?'<i>'+inner+'</i>':inner}</div>`});
+ o+=cap(t);
+ document.getElementById('o').innerHTML=o; return null;
+}
+</script></body></html>

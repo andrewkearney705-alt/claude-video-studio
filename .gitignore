@@ -4,3 +4,6 @@ projects/
 templates/set_reveal/node_modules
 templates/**/_built.html
 __pycache__/
+templates/_*.html
+templates/set_reveal/package.json
+templates/set_reveal/package-lock.json

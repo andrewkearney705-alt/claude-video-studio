@@ -2,6 +2,15 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-02 — First car video (iPhone, daylight, parked): fixes found on real footage
+- **HDR was too hot.** `cut.py` tone-mapped HLG with npl=100, which clipped skin to pink-white (Andrew: "way blown out"). Now npl=400 + mobius: skin and sky hold. Re-cut anything made before this.
+- **Transcripts dropped words.** Fixed 20 s chunks lost most of any chunk that began mid-sentence. `transcribe.py` now splits on pauses with Silero VAD (`models/silero_vad.onnx`, added to `setup.sh`). Car music/handling noise is not speech: DPDFNet removes it, a quick way to tell.
+- **Reframe from 4K:** `CROP="1.3,0.5,0.62" cut.py` crops before scaling (dashboard phone shots have too much roof). `composite.py` takes `ZOOM_CENTER` for punch-ins on the face.
+- **Speed on 2 CPUs:** `MASK_STEP=3 masks.py` (model every 3rd frame, blended), `look.grade` uses 16-bit lookup tables (~4x faster, max diff 0.0007; `grade_ref` kept). Per-project grade overrides in `look.json` (daylight car: bg -0.45 stop, sat 0.82, near-neutral tint, magenta fix 0.015).
+- `mix.sh` takes `MUSIC_DB` (used -8 for a one-take bed; -12 left the bed ~22 dB under the voice).
+- New `templates/gfx_one_take.html`: pinned serif headline (strike/underline accent on a spoken word), series kicker, Space Mono phrase captions from explicit phrase lists, optional slate labels (blooper "TAKE 03") and an end line.
+- Formats used: founder one-take split into a 3-part "On passion" series + a POV blooper reel (speed-ramped chaos, music hard-stops on the phone fall). Awaiting Andrew's notes.
+
 ## 2026-11-02 — Apple-style motion noted (reference)
 - Added one reference line to `docs/motion/motion-playbook.md` (springs, no bounce unless flicked, glass panels, tight tracking on big type) from Andrew's Apple design skill request. Other open editing/sound signals were already in the kit from Nov 1 chat pushes.
 
