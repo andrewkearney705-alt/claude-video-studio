@@ -10,6 +10,8 @@ Use the built-in browser (Andrew is logged into Instagram there). Instagram's AP
 - After running a sampler, take a screenshot: the contact sheet is drawn as a fixed overlay `#__cs` at the top-left.
 - A profile's reels grid (`instagram.com/<handle>/reels/`) won't render in the hidden pane: `a[href*="/reel/"]` stays empty until any screenshot is taken (scale 0.2 is enough). Recipe: navigate, wait 4 s, screenshot, then read the anchors' text for view counts. [Reel Scout: worked for 9 creators, Nov 1 2026; failed every time without the screenshot]
 - A reel's post date can be read from its shortcode without opening it: decode the first 11 characters as Instagram base64 into a number `id`; `(id >> 23) + 1314220021721` is the post time in ms since 1970. Handy for "posted in the last 14 days" filters.
+- Handles: `diaryofaceo` on Instagram is an unrelated account; the real one is `thediaryofaceopodcast`. Jake Schincariol's real Instagram handle is unknown (GitHub only).
+- The pane is ~800 px wide, so reel pages use Instagram's mobile layout: likes / comments / shares are the three numbers under the audio line, click "more" to expand the caption, and "View all comments" opens nothing.
 - YouTube: wait out ads first (`.ad-showing`, click `.ytp-skip-ad-button`). Video element: `#movie_player video`.
 
 ## Seek sampler (finite duration: most reels on second load, all YouTube)

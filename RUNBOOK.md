@@ -65,6 +65,7 @@ python3 ../../scripts/composite.py . gfxA mix_A.wav out_A.mp4 [reveal/frames]
 ffmpeg -i out_A.mp4 -i mix_A_nomusic.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -shortest out_A_nomusic.mp4
 ```
 Build a 12-frame contact sheet of the final and look at it before sending. Deliver the main version + no-music version.
+Big renders: raw split `.mp4` parts got corrupted in transit and would not play when rejoined. Send `gzip -1 | split -b 24m`, then `cat parts | gunzip > x.mp4` on the other end (md5 matched on 8 files). Long phone clips: split with `ffmpeg -c copy` first.
 Optional instrument: `scripts/qa_check.py` measures dead air, caption chunking and safe zones against a named preset. It reports numbers; it doesn't decide the edit.
 
 ## Measured targets to check against
