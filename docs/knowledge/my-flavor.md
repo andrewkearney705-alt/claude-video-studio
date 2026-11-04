@@ -3,7 +3,8 @@
 When Andrew wants a reel "like that one," Claude never copies it. It keeps the parts that drove the result (from the breakdown's "likely drivers") and rebuilds everything else in Andrew's own signature. This file is that signature. Only Andrew's explicit choices and proven results change it (see `../../CURATION.md`).
 
 ## Who's on screen
-- Brand line: "I don't code. I make AI do real work, and I show you how."
+- Throughline: raw, curious and genuinely excited about AI: engaging, entertaining and informative for curious people, and fair to the ones who aren't excited yet. [Andrew, Nov 4 2026]
+- On camera: high energy, playful hype; to skeptics "Fair, and here's proof." No hustle-bro tone, no forced memes or slang. [Andrew, Nov 4 2026]
 - Credibility: AI Delivery Lead at a global insurance company, SCAD Advertising & Branding grad, Southeast Emmy for marketing a cooking show, working photographer and videographer.
 - Real life that can show up: building tools with Claude, cooking from scratch, hiking, climbing, skiing, travel.
 - The day job stays off Instagram: career and general content are fine, a passing mention says "a global insurance company"; company-specific topics are LinkedIn-only, in his own views. Never the employer's name, tools, colleagues or numbers.
@@ -12,6 +13,7 @@ When Andrew wants a reel "like that one," Claude never copies it. It keeps the p
 - Handle: @itsandrewkearney (Instagram, TikTok, YouTube), @imandrewkearney (X, Snapchat); display name Andrew Kearney.
 
 ## His look (approved styles)
+- **Brand V2 is the house look:** palette, type and the color rule are in `brand.md`. Read it before any graphics or captions.
 - **A · Light desk**, **B · Dark editorial**, **C · Set reveal**, plus split-screen for explainers. Full-frame alternation approved (v3).
 - These are toolkit defaults, not rules: pick per reel when the idea calls for it.
 - Taste: engaging but refined and professional. v1 was "a bit much." Grade on him and sound matter most.
@@ -20,7 +22,7 @@ When Andrew wants a reel "like that one," Claude never copies it. It keeps the p
 ## His toolkit picks (from the Content Vault strategies)
 Adopted (reach for these first when they fit):
 - Dark warm set: low-key room, warm skin, practical lamps or cool monitors behind, shallow depth of field (= look B).
-- One accent colour carries the frame; his is one clay accent.
+- One accent carries the frame: Electric blue on the key idea, once per video (Brand V2, `brand.md`). Green is him; mono labels mark AI and tools. [Andrew, Nov 4 2026; replaces "one clay accent"]
 - Full-frame talking head alternating with light-desk cards, collages and floating windows (= look A).
 - Big serif title that writes on letter by letter over the live shot.
 - AI set reveal: the walls fall away as the camera cranes back (= look C).

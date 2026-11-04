@@ -24,7 +24,7 @@ How Claude turns Andrew's raw clips into a finished vertical video. Use in this 
 - One Dialogue event per word (or 2–3 words), timed from `transcript.json`.
 - Pop-in: `{\fscx112\fscy112\t(0,90,\fscx100\fscy100)}`
 - Burn in: `-vf "ass=captions.ass"` (libass is installed).
-- Fonts: Inter / Manrope SemiBold for captions; Instrument Serif or Playfair Display for display titles; a marker/handwritten face (e.g. Permanent Marker, Caveat Brush) for Greg-style quote overlays.
+- Fonts (Brand V2, see `knowledge/brand.md`): Satoshi Bold for captions (sentence case, 3–4 word chunks), Satoshi Black for hooks, Fraunces Italic for the one accent word, Geist Mono for AI/tool labels; a marker/handwritten face (e.g. Permanent Marker, Caveat Brush) for Greg-style quote overlays.
 
 ## 5. Sound (full detail in look-and-sound.md)
 - Denoise first with DPDFNet 48 kHz (sherpa-onnx), blend 5% original back.

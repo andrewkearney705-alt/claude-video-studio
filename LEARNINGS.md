@@ -2,6 +2,11 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-04: Brand V2 adopted (Pine, Oat & Electric)
+- Andrew chose the brand in a design session: Satoshi bold sans + one Fraunces italic word + Geist Mono labels; palette Pine/Fern/Electric/Honey/Oat/Walnut on Cream (light) or Night (dark).
+- Color rule: green = him, blue = the key idea once per piece (not "AI"), mono labels mark AI and tools. Replaces "one clay accent" and V1 "blue means AI".
+- New `docs/knowledge/brand.md`; `my-flavor.md` and `pipeline.md` fonts updated; old "I don't code" brand line replaced with his throughline.
+
 ## 2026-11-03 — Curator: HLG number, text rule, caption house rules, pace pattern
 - `look-and-sound.md` still said `npl=100` for HLG; now `npl=400` like `cut.py` (100 clipped skin).
 - `founder-one-take.md`: Andrew rejected a pinned headline and series framing; Greg's pinned headline is now reference only and the kinetic key-word text is the current approach.
