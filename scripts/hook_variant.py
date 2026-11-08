@@ -45,6 +45,10 @@ for w in out:
     w['w'] = t
 # caption chunks: 1-4 words, break at segment starts, at ~18 chars, never end on a weak word
 weak = {'the', 'to', 'a', 'an', 'and', 'of', 'your', 'my', 'in', 'into', 'that', 'for', 'at', 'with', 'or', 'but', 'so', 'is'}
+for kk in spec.get('emph', []):
+    word, _, after = kk.partition('@'); after = float(after or 0)
+    for w in out:
+        if w['w'].strip('.,').lower() == word.lower() and w['t'] >= after: w['b'] = 1; break
 g = 0; cur = []
 def flush():
     global g, cur
@@ -55,7 +59,9 @@ for w in out:
     chars = sum(len(x['w']) + 1 for x in cur)
     if cur and (newsent or len(cur) >= 4 or chars + len(w['w']) > 18) and cur[-1]['w'].lower() not in weak: flush()
     elif cur and len(cur) >= 5: flush()
+    if w.get('b') and cur and cur[-1]['w'].lower() not in weak: flush()
     w['g'] = g; cur.append(w)
+    if w.get('b'): flush()
 for kk, col in spec.get('keys', {}).items():
     word, _, after = kk.partition('@'); after = float(after or 0)
     for w in out:

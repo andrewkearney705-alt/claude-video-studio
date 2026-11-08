@@ -24,7 +24,7 @@ for p in C['pops']:
 # no two pops overlap
 for a, b in zip(pops, pops[1:]):
     if a['t1'] > b['t0']: a['t1'] = b['t0']
-cfg = dict(capY=C['capY'], capSize=C['capSize'], wm=[0.0, 2.0], wmY=C['wmY'], pops=pops, maxW=C.get('maxW', 820))
+cfg = dict(capY=C['capY'], capSize=C['capSize'], bigScale=C.get('bigScale', 1.5), wm=None, wmY=C['wmY'], pops=pops, maxW=C.get('maxW', 820))
 json.dump(cfg, open(f'{V}/gfx_cfg.json', 'w'), indent=1)
 tpl = open(f'{K}/templates/gfx_brandv2.html').read().replace('__CFG__', json.dumps(cfg))
 name = 'gfx_v_' + os.path.basename(V) + '.html'

@@ -2,6 +2,11 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-08 (later): Andrew's notes on the trial cuts, v2
+- Andrew: bottom captions "great"; big text behind the head "blocked by my head, not really needed"; no name at the start of reels; cream and blue, not green, for caption colors; "The worst advice" big text is okay, but use less big text.
+- v2: no wordmark; no behind-head text; big words only on a hook; emphasis now lives inside the bottom captions (4-5 words a video set bigger in Fraunces italic, cream; Electric light on the one key idea; emphasized word gets its own short chunk). Captions cream #F6EFE3.
+- New: `scripts/log_science.py` logs each cut's measurable "science" (hook seconds/words, first word, pace, shot lengths, payoff timing, emphasis times, framing, loudness) to the Brand OS `postmeta` so the Analyst can correlate it with results; `scripts/pretest.py` is a free 10-point hook/pacing check used to pick trial order (a ranking aid, not a prediction).
+
 ## 2026-11-08: Two talking one-takes (car + home selfie), hook variants, Brand V2 text
 - Edited 6 trial cuts from 2 videos (passion take in the car, "same energy into yourself" selfie at home), 3 hook versions each. Awaiting Andrew's notes.
 - **Cut once, slice the hooks:** `scripts/hook_variant.py` builds each hook version from one superset cut (all hook takes + body, masked and graded once), so grading isn't repeated per variant; `scripts/render_variant.py` does graphics, sound, mix, composite and the no-music copy. Words come from the source `words.json` per segment (a duplicated source range used to lose its captions).
