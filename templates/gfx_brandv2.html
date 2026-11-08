@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Brand V2 talking-head text (Nov 2026): Pine, Oat & Electric. Built from gfx_kinetic.html.
+     ?s=back  -> big key-word pops that sit BEHIND the subject (composite.py GFX_BACK lays the person over them)
+     ?s=front -> captions (Satoshi stand-in Plus Jakarta Sans Bold, sentence case, 3-4 word chunks, white + soft shadow),
+                 the name wordmark (first 2 s) and any front pops.
+     Fonts: sans = Plus Jakarta Sans 800 (web stand-in for Satoshi Black), it = Fraunces italic (the one word that matters),
+            mono = Geist Mono 500 caps labels. Colour rule: Fern light = him, Electric light = the key idea ONCE per video.
+     CFG.pops: [{t0,t1,layer,y,items:[{text,f:'sans'|'it'|'mono',size,color,t,dy,dx}]}]
+     Words: TL.words [{w,t,g}] where g groups words into one caption chunk. -->
+<style>
+@font-face{font-family:Sans;font-weight:700;src:url(../fonts/fontsource-plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff2)}
+@font-face{font-family:Sans;font-weight:800;src:url(../fonts/fontsource-plus-jakarta-sans/files/plus-jakarta-sans-latin-800-normal.woff2)}
+@font-face{font-family:Fr;font-style:italic;font-weight:600;src:url(../fonts/fontsource-fraunces/files/fraunces-latin-600-italic.woff2)}
+@font-face{font-family:Mono;font-weight:500;src:url(../fonts/fontsource-geist-mono/files/geist-mono-latin-500-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;background:transparent;overflow:hidden}
+.ln{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;line-height:.95}
+.f-sans{font-family:Sans;font-weight:800;letter-spacing:-.03em;text-shadow:0 4px 26px rgba(0,0,0,.55),0 0 3px rgba(0,0,0,.45)}
+.f-it{font-family:Fr;font-style:italic;font-weight:600;letter-spacing:-.01em;text-shadow:0 4px 26px rgba(0,0,0,.55),0 0 3px rgba(0,0,0,.45)}
+.f-mono{font-family:Mono;font-weight:500;text-transform:uppercase;letter-spacing:.18em;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+.cap{position:absolute;left:0;right:0;text-align:center;font-family:Sans;font-weight:700;color:#fff;white-space:nowrap;letter-spacing:-.01em;
+     text-shadow:0 2px 14px rgba(0,0,0,.65),0 0 3px rgba(0,0,0,.55)}
+.cap .k{font-family:Fr;font-style:italic;font-weight:600}
+.wm{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+</style></head><body><div id="o"></div>
+<script>
+const TL=__TIMELINE__, W=TL.words, LAYER=(new URLSearchParams(location.search)).get('s')||'front';
+const CFG=__CFG__, F=24;
+window.ready=Promise.all(['700 30px Sans','800 80px Sans','italic 600 80px Fr','500 30px Mono'].map(f=>document.fonts.load(f)));
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), pr=(t,a,b)=>cl((t-a)/(b-a)), eo=x=>1-Math.pow(1-x,3);
+const G=[];W.forEach(w=>{let g=G.find(x=>x.k===w.g);if(!g){g={k:w.g,ws:[]};G.push(g)}g.ws.push(w)});
+G.forEach(g=>g.t0=g.ws[0].t);G.forEach((g,i)=>{const last=g.ws[g.ws.length-1];g.t1=i<G.length-1?Math.min(G[i+1].t0,last.t+0.9):Math.min(TL.dur,last.t+0.9)});
+function capHidden(t){return (CFG.pops||[]).some(p=>p.cap&&t>=p.cap[0]&&t<p.cap[1])}
+function cap(t){if(capHidden(t))return'';const g=G.find(g=>t>=g.t0&&t<g.t1);if(!g)return'';
+ const vis=g.ws.filter(w=>t>=w.t-1/F/2);
+ return `<div class="cap" style="top:${CFG.capY}px;font-size:${CFG.capSize}px">${vis.map(w=>w.k?`<span class="k" style="color:${w.k}">${w.w}</span>`:w.w).join(' ')}</div>`}
+function item(it,t,y,color){if(t<it.t-1/F/2)return'';const p=it.t<=0?1:eo(pr(t,it.t,it.t+4/F));
+ return `<div class="ln f-${it.f}" style="top:${y+(it.dy||0)}px;left:${it.dx||0}px;font-size:${it.size}px;color:${it.color||color||'#F2EADC'};transform:translateY(${(1-p)*18}px) scale(${1.04-.04*p});filter:blur(${(1-p)*6}px);opacity:${p}"><span class="fit" style="display:inline-block">${it.text}</span></div>`}
+function wordmark(t){if(!CFG.wm||t>=CFG.wm[1])return'';const a=CFG.wm[0];const p=eo(pr(t,a,a+6/F)),q=1-pr(t,CFG.wm[1]-6/F,CFG.wm[1]);
+ return `<div class="wm" style="top:${CFG.wmY}px;opacity:${Math.min(p,q)}"><span style="font-family:Sans;font-weight:800;font-size:44px;color:#F2EADC;letter-spacing:-.02em">Andrew </span><span style="font-family:Fr;font-style:italic;font-weight:600;font-size:46px;color:#A9C4A6">Kearney</span></div>`}
+window.render=function(t){
+ let o='';
+ (CFG.pops||[]).forEach(p=>{if((p.layer||'back')!==LAYER||t<p.t0||t>=p.t1)return;
+   const out=1-pr(t,p.t1-3/F,p.t1);p.items.forEach(it=>{let h=item(it,t,p.y,p.color);if(out<1)h=h.replace('opacity:',`opacity:${out}*`);o+=h})});
+ if(LAYER==='front'){o+=wordmark(t);o+=cap(t)}
+ const O=document.getElementById('o'); O.innerHTML=o.replace(/opacity:([0-9.]+)\*([0-9.e-]+)/g,(m,a,b)=>'opacity:'+(a*b));
+ O.querySelectorAll('.fit').forEach(sp=>{const w=sp.offsetWidth,M=CFG.maxW||820;if(w>M){const ln=sp.parentElement;ln.style.fontSize=(parseFloat(ln.style.fontSize)*M/w)+'px'}});
+ return null;
+}
+</script></body></html>

@@ -2,6 +2,15 @@
 
 Every Claude chat that edits a video or studies a creator adds a dated entry here (newest first), then folds anything durable into the right doc (`docs/look-and-sound.md`, `docs/style-bible.md`, `docs/ai-generation-stack.md`, `docs/formats/*`, `RUNBOOK.md`) or script. Keep entries short: what happened, what we learned, what changed.
 
+## 2026-11-08: Two talking one-takes (car + home selfie), hook variants, Brand V2 text
+- Edited 6 trial cuts from 2 videos (passion take in the car, "same energy into yourself" selfie at home), 3 hook versions each. Awaiting Andrew's notes.
+- **Cut once, slice the hooks:** `scripts/hook_variant.py` builds each hook version from one superset cut (all hook takes + body, masked and graded once), so grading isn't repeated per variant; `scripts/render_variant.py` does graphics, sound, mix, composite and the no-music copy. Words come from the source `words.json` per segment (a duplicated source range used to lose its captions).
+- **masks.py streams frames** (two passes, float16 key masks): a 75 s 4K clip ran out of memory on a 7 GB box when every frame was held.
+- `composite.py` takes `X264_PRESET` (use veryfast for drafts).
+- **Brand V2 text template** `templates/gfx_brandv2.html`: Plus Jakarta Sans (Satoshi stand-in) captions in sentence case, one Fraunces italic word per pop, Geist Mono labels, name wordmark for the first 2 s, Electric light only on the key-idea word. Fonts added to `setup.sh`.
+- Framing: iPhone dash shot reframed from 4K with `CROP=1.4,0.5,0.86`; in dash and selfie framings the head fills the top third, so key-word pops sit on the chest (y ~870-1010), not behind the head.
+- Founder one-take recipe kept: felt-piano bed only, no SFX hits, punch-ins (1.07) alternate across jump cuts.
+
 ## 2026-11-04: Brand V2 adopted (Pine, Oat & Electric)
 - Andrew chose the brand in a design session: Satoshi bold sans + one Fraunces italic word + Geist Mono labels; palette Pine/Fern/Electric/Honey/Oat/Walnut on Cream (light) or Night (dark).
 - Color rule: green = him, blue = the key idea once per piece (not "AI"), mono labels mark AI and tools. Replaces "one clay accent" and V1 "blue means AI".

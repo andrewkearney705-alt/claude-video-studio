@@ -19,7 +19,7 @@ if [ ! -d sherpa-onnx-zipformer-en-2023-06-26 ]; then
   tar xjf zf.tar.bz2 && rm zf.tar.bz2
 fi
 cd ../fonts
-for f in space-mono instrument-serif inter unbounded bebas-neue great-vibes jetbrains-mono; do
+for f in space-mono instrument-serif inter unbounded bebas-neue great-vibes jetbrains-mono plus-jakarta-sans fraunces geist-mono; do
   [ -d fontsource-$f ] || { npm pack -s @fontsource/$f >/dev/null && mkdir -p fontsource-$f && tar xzf fontsource-$f-*.tgz -C fontsource-$f --strip-components=1 && rm fontsource-$f-*.tgz; }
 done
 cd ../templates/set_reveal && [ -d node_modules/three ] || npm install -s three@0.169.0

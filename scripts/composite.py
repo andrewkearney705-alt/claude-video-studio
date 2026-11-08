@@ -25,7 +25,7 @@ rng=np.random.default_rng(1)
 BACK=os.environ.get('GFX_BACK'); MK=np.load(P+'/masks.npy',mmap_mode='r') if BACK else None
 dec=subprocess.Popen(['ffmpeg','-v','error','-i',P+'/graded.mov','-f','rawvideo','-pix_fmt','rgb48le','-'],stdout=subprocess.PIPE)
 enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb48le','-s',f'{W}x{H}','-r',str(F),'-i','-','-i',AUD,
-   '-c:v','libx264','-preset','slow','-crf','16','-pix_fmt','yuv420p','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
+   '-c:v','libx264','-preset',os.environ.get('X264_PRESET','slow'),'-crf','16','-pix_fmt','yuv420p','-colorspace','bt709','-color_primaries','bt709','-color_trc','bt709',
    '-c:a','aac','-b:a','256k','-shortest','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
 i=0
 while True:
